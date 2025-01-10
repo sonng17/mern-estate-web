@@ -6,8 +6,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
-        secure: false,
+        target: "https://mern-estate-1-q6ie.onrender.com", // Domain đã deploy
+        changeOrigin: true, // Thay đổi origin khi gửi request
+        secure: true, // Vì bạn sử dụng HTTPS
       },
     },
   },
