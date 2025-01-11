@@ -8,6 +8,9 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ export default function CreateListing() {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
-      const res = await fetch(`/api/user/myListing/${listingId}`);
+      const res = await fetch(`${API_BASE_URL}/api/user/myListing/${listingId}`);
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
@@ -44,6 +47,7 @@ export default function CreateListing() {
     };
     fetchListing();
   }, []);
+  // eslint-disable-next-line no-unused-vars
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -61,6 +65,7 @@ export default function CreateListing() {
           setImageUploadError(false);
           setUploading(false);
         })
+        // eslint-disable-next-line no-unused-vars
         .catch((err) => {
           setImageUploadError("Image upload failed (2 mb max per image)");
           setUploading(false);
@@ -137,7 +142,7 @@ export default function CreateListing() {
         return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch(`/api/listing/update/${params.listingId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

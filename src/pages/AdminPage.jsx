@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Tabs, Table, Button, message } from "antd";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function AdminPage() {
   const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
@@ -10,7 +12,7 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("/api/admin/getAllUsers");
+      const res = await fetch(`${API_BASE_URL}/api/admin/getAllUsers`);
       if (res.ok) {
         const data = await res.json();
         setUsers(data);
@@ -26,7 +28,7 @@ export default function AdminPage() {
   // Fetch Listings
   const fetchListings = async () => {
     try {
-      const res = await fetch("/api/admin/getAllListings");
+      const res = await fetch(`${API_BASE_URL}/api/admin/getAllListings`);
       if (res.ok) {
         const data = await res.json();
         const listingsWithUsername = data.map((listing) => ({
@@ -48,7 +50,7 @@ export default function AdminPage() {
   // Fetch Pending Listings
   const fetchPendingListings = async () => {
     try {
-      const res = await fetch("/api/admin/getPendingListings");
+      const res = await fetch(`${API_BASE_URL}/api/admin/getPendingListings`);
       if (res.ok) {
         const data = await res.json();
         const pendingListingsWithUsername = data.map((listing) => ({
@@ -89,7 +91,7 @@ export default function AdminPage() {
   // Handle Delete User
   const handleDeleteUser = async (id) => {
     try {
-      const res = await fetch(`/api/admin/deleteUser/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/deleteUser/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -180,7 +182,7 @@ export default function AdminPage() {
   // Handle Delete Listing
   const handleDeleteListing = async (id) => {
     try {
-      const res = await fetch(`/api/admin/deleteListing/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/deleteListing/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -199,7 +201,7 @@ export default function AdminPage() {
   // Handle Set Listing Status
   const handlePendListing = async (id, status) => {
     try {
-      const res = await fetch(`/api/admin/pendListing/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/pendListing/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -225,7 +227,7 @@ export default function AdminPage() {
 
   const handleApproveListing = async (id) => {
     try {
-      const res = await fetch(`/api/admin/approveListing/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/approveListing/${id}`, {
         method: "PUT",
       });
       if (res.ok) {
@@ -245,7 +247,7 @@ export default function AdminPage() {
 
   const handleRejectListing = async (id) => {
     try {
-      const res = await fetch(`/api/admin/rejectListing/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/rejectListing/${id}`, {
         method: "PUT",
       });
       if (res.ok) {
