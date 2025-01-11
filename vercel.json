@@ -1,11 +1,10 @@
 {
     "redirects": [
       {
-        "source": "/(?!index\\.html).*",
+        "source": "/(.*)",
         "destination": "/index.html",
         "permanent": false
       }
     ]
   }
-  
   
