@@ -17,7 +17,6 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -34,7 +33,7 @@ export default function Listing() {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE_URL}/api/listing/get/${params.listingId}`);
+        const res = await fetch(`/api/listing/get/${params.listingId}`);
         const data = await res.json();
         console.log(data, "data nè");
         if (data === "not allow") {
@@ -59,7 +58,7 @@ export default function Listing() {
 
     const fetchUserProfile = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/get/${listing.userRef}`);
+        const res = await fetch(`/api/user/get/${listing.userRef}`);
         const data = await res.json();
         if (data.success === false) {
           console.log(data.message);

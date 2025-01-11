@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, Navigate, useParams } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import { Link, Navigate, useParams } from "react-router-dom";
 
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);
@@ -13,7 +12,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/get/${params.userId}`);
+        const res = await fetch(`/api/user/get/${params.userId}`);
         const data = await res.json();
         if (data.success === false) {
           return;
@@ -29,7 +28,7 @@ export default function Profile() {
   useEffect(() => {
     const showUserListings = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/listings/${params.userId}`);
+        const res = await fetch(`/api/user/listings/${params.userId}`);
         const data = await res.json();
         if (data.success === false) {
           return;
