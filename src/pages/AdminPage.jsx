@@ -103,7 +103,7 @@ export default function AdminPage() {
   //User tab-----------------
   // Handle Get User
   const handleGetUser = (id) => {
-    window.open(`/profile/${id}`, "_blank");
+    window.open(`/#/profile/${id}`, "_blank");
   };
 
   // Handle Delete User
@@ -199,7 +199,7 @@ export default function AdminPage() {
   //Listings tab-----------------
   // Handle Get Listing
   const handleGetListing = (id) => {
-    window.open(`/listing/${id}`, "_blank");
+    window.open(`/#/listing/${id}`, "_blank");
   };
   // Handle Delete Listing
   const handleDeleteListing = async (id) => {
