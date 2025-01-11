@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 // import App from "./App.jsx";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -27,7 +27,7 @@ import AdminPage from "./pages/AdminPage.jsx";
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
+      <HashRouter>
         <div className="flex flex-col min-h-screen">
           <Header />
           <div className="flex-1">
@@ -58,7 +58,7 @@ createRoot(document.getElementById("root")).render(
 
           <Footer />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </PersistGate>
   </Provider>
 );
