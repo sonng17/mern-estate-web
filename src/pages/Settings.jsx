@@ -79,13 +79,17 @@ export default function Settings() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`${API_BASE_URL}/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include",
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
@@ -101,9 +105,16 @@ export default function Settings() {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`${API_BASE_URL}/api/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/user/delete/${currentUser._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
@@ -118,7 +129,13 @@ export default function Settings() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch(`${API_BASE_URL}/api/auth/signout`);
+      const res = await fetch(`${API_BASE_URL}/api/auth/signout`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+      });
       const data = await res.json();
       if (data.success === false) {
         dispatch(signOutUserFailure(data.message));
@@ -133,7 +150,16 @@ export default function Settings() {
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
-      const res = await fetch(`${API_BASE_URL}/api/user/mylistings/${currentUser._id}`);
+      const res = await fetch(
+        `${API_BASE_URL}/api/user/mylistings/${currentUser._id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         setShowListingsError(true);
@@ -148,9 +174,16 @@ export default function Settings() {
 
   const handleListingDelete = async (listingId) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/listing/delete/${listingId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/listing/delete/${listingId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+        }
+      );
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);

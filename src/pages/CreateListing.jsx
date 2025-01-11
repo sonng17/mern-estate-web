@@ -139,6 +139,7 @@ export default function CreateListing() {
           ...formData,
           userRef: currentUser._id,
         }),
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
       });
       const data = await res.json();
       setLoading(false);

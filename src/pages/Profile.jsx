@@ -13,7 +13,16 @@ export default function Profile() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/get/${params.userId}`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/user/get/${params.userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
+        );
         const data = await res.json();
         if (data.success === false) {
           return;
@@ -29,7 +38,16 @@ export default function Profile() {
   useEffect(() => {
     const showUserListings = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/listings/${params.userId}`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/user/listings/${params.userId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
+        );
         const data = await res.json();
         if (data.success === false) {
           return;

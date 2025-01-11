@@ -34,7 +34,16 @@ export default function Listing() {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE_URL}/api/listing/get/${params.listingId}`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/listing/get/${params.listingId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
+        );
         const data = await res.json();
         console.log(data, "data nè");
         if (data === "not allow") {
@@ -59,7 +68,16 @@ export default function Listing() {
 
     const fetchUserProfile = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/user/get/${listing.userRef}`);
+        const res = await fetch(
+          `${API_BASE_URL}/api/user/get/${listing.userRef}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
+        );
         const data = await res.json();
         if (data.success === false) {
           console.log(data.message);

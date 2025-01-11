@@ -12,7 +12,13 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/getAllUsers`);
+      const res = await fetch(`${API_BASE_URL}/api/admin/getAllUsers`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+      });
       if (res.ok) {
         const data = await res.json();
         setUsers(data);
@@ -28,7 +34,13 @@ export default function AdminPage() {
   // Fetch Listings
   const fetchListings = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/getAllListings`);
+      const res = await fetch(`${API_BASE_URL}/api/admin/getAllListings`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+      });
       if (res.ok) {
         const data = await res.json();
         const listingsWithUsername = data.map((listing) => ({
@@ -50,7 +62,13 @@ export default function AdminPage() {
   // Fetch Pending Listings
   const fetchPendingListings = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/getPendingListings`);
+      const res = await fetch(`${API_BASE_URL}/api/admin/getPendingListings`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+      });
       if (res.ok) {
         const data = await res.json();
         const pendingListingsWithUsername = data.map((listing) => ({
@@ -93,6 +111,10 @@ export default function AdminPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/deleteUser/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
       });
       if (res.ok) {
         message.success("User deleted successfully");
@@ -184,6 +206,10 @@ export default function AdminPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/deleteListing/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
       });
       if (res.ok) {
         message.success("Listing deleted successfully");
@@ -207,6 +233,7 @@ export default function AdminPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ status }),
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
       });
       if (res.ok) {
         message.success(`Listing status updated to ${status}`);
@@ -227,9 +254,16 @@ export default function AdminPage() {
 
   const handleApproveListing = async (id) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/approveListing/${id}`, {
-        method: "PUT",
-      });
+      const res = await fetch(
+        `${API_BASE_URL}/api/admin/approveListing/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
       if (res.ok) {
         message.success("Listing approved successfully");
         setPendingListings(
@@ -249,6 +283,10 @@ export default function AdminPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/rejectListing/${id}`, {
         method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
       });
       if (res.ok) {
         message.success("Listing rejected successfully");

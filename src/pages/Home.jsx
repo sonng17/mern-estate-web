@@ -18,7 +18,14 @@ export default function Home() {
     const fetchOfferListings = async () => {
       try {
         const res = await fetch(
-          `${API_BASE_URL}/api/listing/get?offer=true&limit=4`
+          `${API_BASE_URL}/api/listing/get?offer=true&limit=4`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
         );
         const data = await res.json();
         setOfferListings(data);
@@ -30,7 +37,14 @@ export default function Home() {
     const fetchRentListings = async () => {
       try {
         const res = await fetch(
-          `${API_BASE_URL}/api/listing/get?type=rent&limit=4`
+          `${API_BASE_URL}/api/listing/get?type=rent&limit=4`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
         );
         const data = await res.json();
         setRentListings(data);
@@ -42,7 +56,14 @@ export default function Home() {
     const fetchSaleListings = async () => {
       try {
         const res = await fetch(
-          `${API_BASE_URL}/api/listing/get?type=sale&limit=4`
+          `${API_BASE_URL}/api/listing/get?type=sale&limit=4`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
         );
         const data = await res.json();
         setSaleListings(data);
