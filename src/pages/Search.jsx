@@ -49,7 +49,6 @@ export default function Search() {
       });
     }
 
-    console.log(urlParams.toString());
     const fetchListings = async () => {
       setLoading(true);
       setShowMore(false);
