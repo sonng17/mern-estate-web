@@ -363,7 +363,7 @@ export default function Settings() {
         </button>
         <button
           onClick={handleSignOut}
-          className="font-bold bg-slate-500 cursor-pointer text-slate-300 p-3 rounded-lg  text-center hover:opacity-95 mt-5"
+          className="font-bold bg-slate-500 cursor-pointer text-white p-3 rounded-lg  text-center hover:opacity-95 mt-5"
         >
           Sign Out
         </button>

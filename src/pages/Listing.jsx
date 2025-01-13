@@ -196,36 +196,44 @@ export default function Listing() {
               {contact && <Contact listing={listing} />}
             </div>
 
-            <div className="p-3 my-7 flex flex-col items-center border-2 rounded-lg border-slate-700">
-              <Link to={`/profile/${listing.userRef}`}>
-                <img
-                  src={userProfile.avatar}
-                  alt="profile"
-                  className="rounded-full h-12 w-12 object-cover cursor-pointer self-center mt-2 "
-                />
-              </Link>
+            <div>
+              <div className="mx-9 my-7 py-7 bg-slate-200 flex flex-col items-center border-2 rounded-lg border-slate-400">
+                <Link to={`/profile/${listing.userRef}`}>
+                  <img
+                    src={userProfile.avatar}
+                    alt="profile"
+                    className="rounded-full h-12 w-12 object-cover cursor-pointer self-center mt-2 "
+                  />
+                </Link>
 
-              <Link to={`/profile/${listing.userRef}`}>
-                <div className="text-center font-bold text-slate-700 text-xl mb-4 border-b-2 border-slate-700">
-                  {userProfile.username}
+                <Link to={`/profile/${listing.userRef}`}>
+                  <div className="text-center font-bold text-slate-700 text-xl mb-4 border-b-2 border-slate-700">
+                    {userProfile.username}
+                  </div>
+                </Link>
+
+                <div>
+                  <span className="font-bold text-slate-700">SĐT: </span>
+                  <span>{userProfile.phone}</span>
                 </div>
-              </Link>
+                <div className="mb-4">
+                  <span className="font-bold text-slate-700">Email: </span>
+                  <span>{userProfile.email}</span>
+                </div>
 
-              <div>
-                <span className="font-bold text-slate-700">SĐT: </span>
-                <span>{userProfile.phone}</span>
-              </div>
-              <div className="mb-4">
-                <span className="font-bold text-slate-700">Email: </span>
-                <span>{userProfile.email}</span>
-              </div>
+                <button className="w-64 bg-slate-700 text-white rounded-lg p-3 mb-4 uppercase hover:opacity-95 disabled:opacity-80">
+                  Liên hệ qua zalo
+                </button>
+                <button className="w-64 bg-slate-700 text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
+                  Gửi Email
+                </button>
 
-              <button className="min-w-32!important bg-green-700 text-white rounded-lg p-3 mb-4 uppercase hover:opacity-95 disabled:opacity-80">
-                Liên hệ qua zalo
-              </button>
-              <button className=" bg-slate-700 text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
-                Gửi Email
-              </button>
+                <Link to={`/profile/${listing.userRef}`}>
+                  <button className="w-64 mt-4 bg-slate-700 text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
+                    Xem thông tin
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

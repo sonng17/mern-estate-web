@@ -94,10 +94,10 @@ export default function Profile() {
               </div>
             </div>
 
-            <button className="bg-slate-700 text-white rounded-lg p-3 mb-4 uppercase hover:opacity-95 disabled:opacity-80">
+            <button className="bg-slate-700 font-semibold text-white rounded-lg p-3 mb-4 uppercase hover:opacity-95 disabled:opacity-80">
               Liên hệ qua zalo
             </button>
-            <button className="bg-slate-700 text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
+            <button className="bg-slate-700 font-semibold text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
               Gửi Email
             </button>
           </div>
