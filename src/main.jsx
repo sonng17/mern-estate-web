@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 
 // import App from "./App.jsx";
 
-import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";

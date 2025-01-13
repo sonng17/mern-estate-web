@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -18,6 +18,8 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
+  const location = useLocation();
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -46,6 +48,8 @@ export default function Search() {
         order: orderFromUrl || "desc",
       });
     }
+
+    console.log(urlParams.toString());
     const fetchListings = async () => {
       setLoading(true);
       setShowMore(false);
@@ -71,6 +75,7 @@ export default function Search() {
     };
     fetchListings();
   }, [location.search]);
+
   const handleChange = (e) => {
     if (
       e.target.id === "all" ||
@@ -112,7 +117,6 @@ export default function Search() {
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
-
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
@@ -132,6 +136,7 @@ export default function Search() {
     }
     setListings([...listings, ...data]);
   };
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
