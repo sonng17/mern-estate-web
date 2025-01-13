@@ -48,21 +48,29 @@ export default function Header() {
           </button>
         </form>
 
-        <ul className="flex gap-4 ">
+        <ul className="flex flex-wrap items-center gap-7">
           <Link to="/">
-            <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md">
+            <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
               Home
             </li>
           </Link>
-          <Link to="/about">
-            <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md">
-              About
-            </li>
-          </Link>
+          {!currentUser ? (
+            <Link to="/about">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+                About
+              </li>
+            </Link>
+          ) : (
+            <Link to={`/create-listing`}>
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+                Đăng tin
+              </li>
+            </Link>
+          )}
 
           {currentUser && (
             <Link to={`/profile/${currentUser._id}`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
                 Profile
               </li>
             </Link>
@@ -70,7 +78,7 @@ export default function Header() {
 
           {currentUser && currentUser.role === "admin" && (
             <Link to={`/admin`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
                 Quản lý
               </li>
             </Link>
@@ -78,19 +86,19 @@ export default function Header() {
 
           {currentUser && (
             <div className="flex items-center justify-center w-5 h-6 hover:bg-slate-300 rounded-md">
-              <FaBell className="text-slate-500" />
+              <FaBell className="text-slate-500 size-5" />
             </div>
           )}
 
           <Link to="/settings">
             {currentUser ? (
               <img
-                className="rounded-full h-7 w-7 object-cover"
+                className="rounded-full h-9 w-9 object-cover"
                 src={currentUser.avatar}
                 alt="profile"
               />
             ) : (
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
                 Sign in
               </li>
             )}

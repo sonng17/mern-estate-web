@@ -30,9 +30,9 @@ export default function Settings() {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
-  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
+  const [showListings, setShowListings] = useState(false);
   const dispatch = useDispatch();
 
   // firebase storage
@@ -96,13 +96,22 @@ export default function Settings() {
         return;
       }
       dispatch(updateUserSuccess(data));
-      setUpdateSuccess(true);
+      alert("Update thành công!"); // Hiển thị thông báo
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+      alert("Đã xảy ra lỗi: " + error.message); // Hiển thị lỗi nếu xảy ra
     }
   };
 
   const handleDeleteUser = async () => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa tài khoản?"
+    );
+
+    if (!confirmDelete) {
+      return; // Dừng lại nếu người dùng nhấn "Cancel"
+    }
+
     try {
       dispatch(deleteUserStart());
       const res = await fetch(
@@ -121,8 +130,10 @@ export default function Settings() {
         return;
       }
       dispatch(deleteUserSuccess(data));
+      alert("Tài khoản đã được xóa thành công."); // Thông báo thành công
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+      alert("Đã xảy ra lỗi khi xóa tài khoản: " + error.message); // Thông báo lỗi
     }
   };
 
@@ -148,28 +159,32 @@ export default function Settings() {
   };
 
   const handleShowListings = async () => {
-    try {
-      setShowListingsError(false);
-      const res = await fetch(
-        `${API_BASE_URL}/api/user/mylistings/${currentUser._id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+    console.log(showListings);
+    if (!showListings) {
+      try {
+        setShowListingsError(false);
+        const res = await fetch(
+          `${API_BASE_URL}/api/user/mylistings/${currentUser._id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
+        );
+        const data = await res.json();
+        if (data.success === false) {
+          setShowListingsError(true);
+          return;
         }
-      );
-      const data = await res.json();
-      if (data.success === false) {
+        setUserListings(data);
+      } catch (error) {
         setShowListingsError(true);
-        return;
+        console.log(error);
       }
-      setUserListings(data);
-    } catch (error) {
-      setShowListingsError(true);
-      console.log(error);
     }
+    setShowListings(!showListings); // Toggle trạng thái hiển thị
   };
 
   const handleListingDelete = async (listingId) => {
@@ -279,42 +294,24 @@ export default function Settings() {
         />
         <button
           disabled={loading}
-          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
+          className="bg-slate-700 font-semibold text-white rounded-lg p-3 hover:opacity-95 disabled:opacity-80"
         >
           {loading ? "Loading..." : "Update"}
         </button>
-        <Link
-          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
-          to={"/create-listing"}
-        >
-          Create Listing
-        </Link>
       </form>
-      <div className="flex justify-between mt-5">
-        <span
-          onClick={handleDeleteUser}
-          className="text-red-700 cursor-pointer"
-        >
-          Delete account
-        </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
-          Sign out
-        </span>
-      </div>
-      <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5">
-        {updateSuccess ? "User is updated successfully!" : ""}
-      </p>
-      <button onClick={handleShowListings} className="text-green-700 w-full">
-        Show Listings
+      <button
+        onClick={handleShowListings}
+        className="bg-green-700 font-semibold text-white p-3 rounded-lg text-center hover:opacity-95 mt-5 w-full"
+      >
+        {!showListings ? "Show all listing" : "Close all listing"}
       </button>
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listings" : ""}
       </p>
-      {userListings && userListings.length > 0 && (
+      {showListings && userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
           <h1 className="text-center mt-7 text-2xl font-semibold">
-            Your Listings
+            My Listings
           </h1>
           {userListings.map((listing) => (
             <div
@@ -348,7 +345,7 @@ export default function Settings() {
                   Delete
                 </button>
                 <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase font-bold">
+                  <button className="text-green-700 uppercase font-semibold">
                     Edit
                   </button>
                 </Link>
@@ -357,6 +354,21 @@ export default function Settings() {
           ))}
         </div>
       )}
+      <div className="flex justify-between mt-5">
+        <button
+          onClick={handleDeleteUser}
+          className="font-bold bg-red-700 cursor-pointer text-white p-3 rounded-lg text-center hover:opacity-95 mt-5"
+        >
+          Delete account!
+        </button>
+        <button
+          onClick={handleSignOut}
+          className="font-bold bg-slate-500 cursor-pointer text-slate-300 p-3 rounded-lg  text-center hover:opacity-95 mt-5"
+        >
+          Sign Out
+        </button>
+      </div>
+      <p className="text-red-700 mt-5">{error ? error : ""}</p>
     </div>
   );
 }

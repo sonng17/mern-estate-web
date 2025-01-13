@@ -54,30 +54,30 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
-          placeholder="email..."
+          placeholder="Type your email..."
           className="border p-3 rounded-lg"
           id="email"
           onChange={handleChange}
         />
         <input
           type="password"
-          placeholder="password..."
+          placeholder="Password..."
           className="border p-3 rounded-lg"
           id="password"
           onChange={handleChange}
         />
         <button
           disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+          className="bg-slate-700 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
         <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
-        <p>Dont have an account?</p>
+        <p>Don&#39;t have an account?</p>
         <Link to={"/sign-up"}>
-          <span className="text-blue-700 underline">Sign up</span>
+          <span className="text-blue-700 font-semibold underline">Sign up</span>
         </Link>
       </div>
       <div>{error && <p className="text-red-500 mt-5">{error}</p>}</div>

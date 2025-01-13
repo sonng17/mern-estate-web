@@ -221,6 +221,14 @@ export default function AdminPage() {
     window.open(`/#/profile/${id}`, "_blank");
   };
   const handleDeleteUser = async (id) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa tài khoản này?"
+    );
+
+    if (!confirmDelete) {
+      return; // Dừng lại nếu người dùng nhấn "Cancel"
+    }
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/deleteUser/${id}`, {
         method: "DELETE",
@@ -319,6 +327,14 @@ export default function AdminPage() {
     window.open(`/#/listing/${id}`, "_blank");
   };
   const handleDeleteListing = async (id) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa tài khoản này?"
+    );
+
+    if (!confirmDelete) {
+      return; // Dừng lại nếu người dùng nhấn "Cancel"
+    }
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/deleteListing/${id}`, {
         method: "DELETE",
