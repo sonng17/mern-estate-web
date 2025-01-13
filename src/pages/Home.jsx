@@ -113,10 +113,10 @@ export default function Home() {
           ))}
       </Swiper>
       {/* listing results for offer, sale and rent */}
-      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
+      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10 ">
         {offerListings && offerListings.length > 0 && (
           <div className="">
-            <div className="my-3">
+            <div className="my-3 pt-4 border-t-2 border-slate-700">
               <h2 className="text-2xl font-semibold text-slate-600">
                 Recent offers
               </h2>
@@ -127,16 +127,18 @@ export default function Home() {
                 Show more...
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4">
-              {offerListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
+            <div className="flex justify-center items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+                {offerListings.map((listing) => (
+                  <ListingItem listing={listing} key={listing._id} />
+                ))}
+              </div>
             </div>
           </div>
         )}
         {rentListings && rentListings.length > 0 && (
           <div className="">
-            <div className="my-3">
+            <div className="my-3 pt-4 border-t-2 border-slate-700">
               <h2 className="text-2xl font-semibold text-slate-600">
                 Recent places for rent
               </h2>
@@ -147,16 +149,18 @@ export default function Home() {
                 Show more...
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4">
-              {rentListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
+            <div className="flex justify-center items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+                {rentListings.map((listing) => (
+                  <ListingItem listing={listing} key={listing._id} />
+                ))}
+              </div>
             </div>
           </div>
         )}
         {saleListings && saleListings.length > 0 && (
           <div className="">
-            <div className="my-3">
+            <div className="my-3 pt-4 border-t-2 border-slate-700">
               <h2 className="text-2xl font-semibold text-slate-600">
                 Recent places for sale
               </h2>
@@ -167,10 +171,12 @@ export default function Home() {
                 Show more...
               </Link>
             </div>
-            <div className="flex flex-wrap gap-4">
-              {saleListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
+            <div className="flex justify-center items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+                {saleListings.map((listing) => (
+                  <ListingItem listing={listing} key={listing._id} />
+                ))}
+              </div>
             </div>
           </div>
         )}

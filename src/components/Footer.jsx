@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="flex gap-3">
             <FaLocationDot className="size-4" />
             <div className="font-semibold text-black">
-              72 ngõ 177 Cầu Diễn, Bắc Từ Liêm, Hà Nội
+              Bắc Từ Liêm, Hà Nội
             </div>
           </div>
         </div>
