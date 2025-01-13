@@ -91,14 +91,14 @@ export default function AdminPage() {
   };
   useEffect(() => {
     fetchUsers();
-  }, [currentUser, users]);
+  }, [users]);
   useEffect(() => {
     // Gọi fetchListings và fetchPendingListings sau khi users được cập nhật
     if (users.length > 0) {
       fetchListings();
       fetchPendingListings();
     }
-  }, [currentUser, listings, pendingListings]);
+  }, [users, listings, pendingListings]);
 
   // Chức năng của table
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -272,12 +272,12 @@ export default function AdminPage() {
       key: "role",
       filters: [
         {
-          text: 'Admin',
-          value: 'admin',
+          text: "Admin",
+          value: "admin",
         },
         {
-          text: 'User',
-          value: 'user',
+          text: "User",
+          value: "user",
         },
       ],
       onFilter: (value, record) => record.role.includes(value),
@@ -439,12 +439,12 @@ export default function AdminPage() {
       key: "type",
       filters: [
         {
-          text: 'Rent',
-          value: 'rent',
+          text: "Rent",
+          value: "rent",
         },
         {
-          text: 'Sale',
-          value: 'sale',
+          text: "Sale",
+          value: "sale",
         },
       ],
       onFilter: (value, record) => record.type.includes(value),
@@ -461,16 +461,16 @@ export default function AdminPage() {
       key: "status",
       filters: [
         {
-          text: 'Approved',
-          value: 'approved',
+          text: "Approved",
+          value: "approved",
         },
         {
-          text: 'Rejected',
-          value: 'rejected',
+          text: "Rejected",
+          value: "rejected",
         },
         {
-          text: 'Pending',
-          value: 'pending',
+          text: "Pending",
+          value: "pending",
         },
       ],
       onFilter: (value, record) => record.status.includes(value),
@@ -526,7 +526,7 @@ export default function AdminPage() {
         dataSource={listings}
         columns={listingColumns}
         rowKey={(record) => record._id} // Dùng _id làm key cho từng hàng
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 6 }}
       />
     );
   };
