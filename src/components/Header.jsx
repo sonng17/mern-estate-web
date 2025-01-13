@@ -50,19 +50,19 @@ export default function Header() {
 
         <ul className="flex flex-wrap items-center gap-7">
           <Link to="/">
-            <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+            <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
               Home
             </li>
           </Link>
           {!currentUser ? (
             <Link to="/about">
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
                 About
               </li>
             </Link>
           ) : (
             <Link to={`/create-listing`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
                 Đăng tin
               </li>
             </Link>
@@ -70,7 +70,7 @@ export default function Header() {
 
           {currentUser && (
             <Link to={`/profile/${currentUser._id}`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
                 Profile
               </li>
             </Link>
@@ -78,14 +78,14 @@ export default function Header() {
 
           {currentUser && currentUser.role === "admin" && (
             <Link to={`/admin`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
                 Quản lý
               </li>
             </Link>
           )}
 
           {currentUser && (
-            <div className="flex items-center justify-center w-5 h-6 hover:bg-slate-300 rounded-md">
+            <div className="flex items-center cursor-pointer justify-center w-5 h-6 hover:bg-slate-300 rounded-2xl">
               <FaBell className="text-slate-500 size-5" />
             </div>
           )}
@@ -98,7 +98,7 @@ export default function Header() {
                 alt="profile"
               />
             ) : (
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-md border-2 border-slate-400">
+              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
                 Sign in
               </li>
             )}
