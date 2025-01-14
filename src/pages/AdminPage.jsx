@@ -91,14 +91,14 @@ export default function AdminPage() {
   };
   useEffect(() => {
     fetchUsers();
-  }, [users]);
+  }, [currentUser]);
   useEffect(() => {
     // Gọi fetchListings và fetchPendingListings sau khi users được cập nhật
     if (users.length > 0) {
       fetchListings();
       fetchPendingListings();
     }
-  }, [users, listings, pendingListings]);
+  }, [users]);
 
   // Chức năng của table
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -333,7 +333,7 @@ export default function AdminPage() {
   };
   const handleDeleteListing = async (id) => {
     const confirmDelete = window.confirm(
-      "Bạn có chắc chắn muốn xóa tài khoản này?"
+      "Bạn có chắc chắn muốn xóa bài đăng này?"
     );
 
     if (!confirmDelete) {
