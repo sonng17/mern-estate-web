@@ -64,7 +64,7 @@ export default function Profile() {
     <div className="p-3 max-w-lg mx-auto">
       {!currentUser && <Navigate to={"/sign-in"}></Navigate>}
       <h1 className="text-3xl font-semibold text-center text-slate-700 my-7">
-        Profile
+        Hồ sơ
       </h1>
 
       {userProfile ? (
@@ -94,12 +94,17 @@ export default function Profile() {
               </div>
             </div>
 
-            <button className="bg-slate-700 font-semibold text-white rounded-lg p-3 mb-4 uppercase hover:opacity-95 disabled:opacity-80">
-              Liên hệ qua zalo
-            </button>
-            <button className="bg-slate-700 font-semibold text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
-              Gửi Email
-            </button>
+            <Link to={`https://zalo.me/${userProfile.phone}`}>
+              <button className="bg-slate-700 w-full font-semibold text-white rounded-lg p-3 mb-4 uppercase hover:opacity-95 disabled:opacity-80">
+                Liên hệ qua zalo
+              </button>
+            </Link>
+
+            <Link to={`mailto:${userProfile.email}`}>
+              <button className="bg-slate-700 w-full font-semibold text-white rounded-lg p-3  uppercase hover:opacity-95 disabled:opacity-80">
+                Gửi Email
+              </button>
+            </Link>
           </div>
         </>
       ) : (
@@ -108,7 +113,7 @@ export default function Profile() {
 
       {userProfile && (
         <h1 className=" mt-7 text-2xl font-semibold mb-2 border-t-2 border-slate-500">
-          {userProfile.username} Listings
+          Các bài đăng của {userProfile.username}
         </h1>
       )}
 

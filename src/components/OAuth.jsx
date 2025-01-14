@@ -39,7 +39,7 @@ export default function OAuth() {
       type="button"
       className="bg-red-700 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95"
     >
-      Continue with google
+      Tiếp tục với google
     </button>
   );
 }

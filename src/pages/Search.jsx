@@ -141,20 +141,18 @@ export default function Search() {
       <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
-            <label className="whitespace-nowrap font-semibold">
-              Search Term:
-            </label>
+            <label className="whitespace-nowrap font-semibold">Tìm kiếm:</label>
             <input
               type="text"
               id="searchTerm"
-              placeholder="Search..."
+              placeholder="Nhập..."
               className="border rounded-lg p-3 w-full"
               value={sidebardata.searchTerm}
               onChange={handleChange}
             />
           </div>
           <div className="flex gap-2 flex-wrap items-center">
-            <label className="font-semibold">Type:</label>
+            <label className="font-semibold">Loại:</label>
             <div className="flex gap-2">
               <input
                 type="checkbox"
@@ -163,7 +161,7 @@ export default function Search() {
                 onChange={handleChange}
                 checked={sidebardata.type === "all"}
               />
-              <span>Rent & Sale</span>
+              <span>Cho thuê & Bán</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -173,7 +171,7 @@ export default function Search() {
                 onChange={handleChange}
                 checked={sidebardata.type === "rent"}
               />
-              <span>Rent</span>
+              <span>Cho thuê</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -183,7 +181,7 @@ export default function Search() {
                 onChange={handleChange}
                 checked={sidebardata.type === "sale"}
               />
-              <span>Sale</span>
+              <span>Bán</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -197,7 +195,7 @@ export default function Search() {
             </div>
           </div>
           <div className="flex gap-2 flex-wrap items-center">
-            <label className="font-semibold">Amenities:</label>
+            <label className="font-semibold">Tiện ích:</label>
             <div className="flex gap-2">
               <input
                 type="checkbox"
@@ -206,7 +204,7 @@ export default function Search() {
                 onChange={handleChange}
                 checked={sidebardata.parking}
               />
-              <span>Parking</span>
+              <span>Có chỗ đỗ xe</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -216,35 +214,39 @@ export default function Search() {
                 onChange={handleChange}
                 checked={sidebardata.furnished}
               />
-              <span>Furnished</span>
+              <span>Trang bị nội thất</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <label className="font-semibold">Sort:</label>
+            <label className="font-semibold">Lọc:</label>
             <select
               onChange={handleChange}
               defaultValue={"created_at_desc"}
               id="sort_order"
               className="border rounded-lg p-3"
             >
-              <option value="regularPrice_desc">Price high to low</option>
-              <option value="regularPrice_asc">Price low to hight</option>
-              <option value="createdAt_desc">Latest</option>
-              <option value="createdAt_asc">Oldest</option>
+              <option value="regularPrice_desc">
+                Theo giá từ cao xuống thấp
+              </option>
+              <option value="regularPrice_asc">Theo giá từ thấp lên cao</option>
+              <option value="createdAt_desc">Mới nhất</option>
+              <option value="createdAt_asc">Cũ nhất</option>
             </select>
           </div>
-          <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95">
-            Search
+          <button className="bg-slate-700 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95">
+            Tìm kiếm
           </button>
         </form>
       </div>
       <div className="flex-1">
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
-          Listing results:
+          Kết quả tìm kiếm:
         </h1>
         <div className="p-7 flex flex-wrap gap-4">
           {!loading && listings.length === 0 && (
-            <p className="text-xl text-slate-700">No listing found!</p>
+            <p className="text-xl text-slate-700">
+              Không tìm thấy bất động sản nào!
+            </p>
           )}
           {loading && (
             <p className="text-xl text-slate-700 text-center w-full">
@@ -261,7 +263,7 @@ export default function Search() {
               onClick={onShowMoreClick}
               className="text-green-700 hover:underline p-7 text-center w-full"
             >
-              Show more
+              Xem thêm
             </button>
           )}
         </div>

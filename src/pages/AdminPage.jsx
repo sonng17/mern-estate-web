@@ -295,10 +295,15 @@ export default function AdminPage() {
       key: "actions",
       render: (text, record) => (
         <div className="flex gap-2">
-          <Button type="primary" onClick={() => handleGetUser(record._id)}>
+          <Button
+            className="font-semibold w-24"
+            type="primary"
+            onClick={() => handleGetUser(record._id)}
+          >
             Get
           </Button>
           <Button
+            className="font-semibold w-24"
             type="primary"
             danger
             onClick={() => handleDeleteUser(record._id)}
@@ -497,10 +502,15 @@ export default function AdminPage() {
       render: (text, record) => (
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 m-auto">
-            <Button type="primary" onClick={() => handleGetListing(record._id)}>
+            <Button
+              className="font-semibold w-24"
+              type="primary"
+              onClick={() => handleGetListing(record._id)}
+            >
               Get
             </Button>
             <Button
+              className="font-semibold w-24"
               type="primary"
               danger
               onClick={() => handleDeleteListing(record._id)}
@@ -510,7 +520,7 @@ export default function AdminPage() {
           </div>
           <div className="flex gap-2">
             <Button
-              className="bg-yellow-300 hover:bg-yellow-600! text-black"
+              className="font-semibold bg-yellow-300 hover:bg-yellow-600! text-black"
               type="default"
               onClick={() => handlePendListing(record._id, "Pending")}
             >
@@ -519,14 +529,14 @@ export default function AdminPage() {
             <Button
               type="default"
               onClick={() => handleApproveListing(record._id, "Approved")}
-              className="bg-yellow-300 hover:bg-yellow-600! text-black"
+              className="font-semibold bg-yellow-300 hover:bg-yellow-600! text-black"
             >
               Set Approved
             </Button>
             <Button
               type="default"
               onClick={() => handleRejectListing(record._id, "Rejected")}
-              className="bg-yellow-300 hover:bg-yellow-600! text-black"
+              className="font-semibold bg-yellow-300 hover:bg-yellow-600! text-black"
             >
               Set Rejected
             </Button>
@@ -592,12 +602,14 @@ export default function AdminPage() {
       render: (text, record) => (
         <div className="flex gap-2">
           <Button
+            className="font-semibold"
             type="primary"
             onClick={() => handleApproveListing(record._id)}
           >
             Approve
           </Button>
           <Button
+            className="font-semibold"
             type="primary"
             danger
             onClick={() => handleRejectListing(record._id)}
@@ -625,17 +637,17 @@ export default function AdminPage() {
   const items = [
     {
       key: "1",
-      label: "Users",
+      label: "Người dùng",
       children: renderUsersTable(),
     },
     {
       key: "2",
-      label: "Listings",
+      label: "Bài đăng",
       children: renderListingsTable(),
     },
     {
       key: "3",
-      label: "Pending Listings",
+      label: "Xét duyệt",
       children: renderPendingListingsTable(),
     },
   ];

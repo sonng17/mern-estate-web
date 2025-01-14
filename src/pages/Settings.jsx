@@ -215,7 +215,7 @@ export default function Settings() {
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center text-slate-700 my-7">
-        Settings
+        Cài đặt
       </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -296,14 +296,14 @@ export default function Settings() {
           disabled={loading}
           className="bg-slate-700 font-semibold text-white rounded-lg p-3 hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Update"}
+          {loading ? "Loading..." : "Cập nhật"}
         </button>
       </form>
       <button
         onClick={handleShowListings}
         className="bg-green-700 font-semibold text-white p-3 rounded-lg text-center hover:opacity-95 mt-5 w-full"
       >
-        {!showListings ? "Show all listing" : "Close all listing"}
+        {!showListings ? "Hiển thị tất cả bài đăng" : "Đóng tất cả bài đăng"}
       </button>
       <p className="text-red-700 mt-5">
         {showListingsError ? "Error showing listings" : ""}
@@ -311,7 +311,7 @@ export default function Settings() {
       {showListings && userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
           <h1 className="text-center mt-7 text-2xl font-semibold">
-            My Listings
+            Bài đăng của tôi
           </h1>
           {userListings.map((listing) => (
             <div
@@ -340,13 +340,13 @@ export default function Settings() {
               <div className="flex flex-col items-center">
                 <button
                   onClick={() => handleListingDelete(listing._id)}
-                  className="text-red-700 uppercase font-bold"
+                  className="text-red-700  font-bold"
                 >
-                  Delete
+                  Xóa
                 </button>
                 <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase font-semibold">
-                    Edit
+                  <button className="text-green-700 font-semibold">
+                    Cập nhật
                   </button>
                 </Link>
               </div>
@@ -359,13 +359,13 @@ export default function Settings() {
           onClick={handleDeleteUser}
           className="font-bold bg-red-700 cursor-pointer text-white p-3 rounded-lg text-center hover:opacity-95 mt-5"
         >
-          Delete account!
+          Xóa tài khoản!
         </button>
         <button
           onClick={handleSignOut}
           className="font-bold bg-slate-500 cursor-pointer text-white p-3 rounded-lg  text-center hover:opacity-95 mt-5"
         >
-          Sign Out
+          Đăng xuất
         </button>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ""}</p>

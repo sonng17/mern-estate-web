@@ -47,7 +47,7 @@ export default function SignUp() {
   // console.log(formData);
   return (
     <div className="pb-28  p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
+      <h1 className="text-3xl text-center font-semibold my-7">Đăng ký</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
@@ -65,7 +65,7 @@ export default function SignUp() {
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Mật khẩu"
           className="border p-3 rounded-lg"
           id="password"
           onChange={handleChange}
@@ -74,14 +74,14 @@ export default function SignUp() {
           disabled={loading}
           className="bg-slate-700 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Sign Up"}
+          {loading ? "Loading..." : "Đăng ký"}
         </button>
         <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
-        <p>Have an account?</p>
+        <p>Đã có tài khoản?</p>
         <Link to={"/sign-in"}>
-          <span className="text-blue-700 font-semibold underline">Sign in</span>
+          <span className="text-blue-700 font-semibold underline">Đăng nhập</span>
         </Link>
       </div>
       <div>{error && <p className="text-red-500 mt-5">{error}</p>}</div>

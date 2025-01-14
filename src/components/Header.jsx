@@ -38,7 +38,7 @@ export default function Header() {
         >
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Tìm kiếm..."
             className="bg-transparent focus:outline-none w-24 sm:w-64"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -51,13 +51,13 @@ export default function Header() {
         <ul className="flex flex-wrap items-center gap-7">
           <Link to="/">
             <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
-              Home
+              Trang chủ
             </li>
           </Link>
           {!currentUser ? (
             <Link to="/about">
               <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
-                About
+                Thông tin
               </li>
             </Link>
           ) : (
@@ -71,7 +71,7 @@ export default function Header() {
           {currentUser && (
             <Link to={`/profile/${currentUser._id}`}>
               <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
-                Profile
+                Hồ sơ
               </li>
             </Link>
           )}
@@ -99,7 +99,7 @@ export default function Header() {
               />
             ) : (
               <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
-                Sign in
+                Đăng nhập
               </li>
             )}
           </Link>

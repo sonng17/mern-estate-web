@@ -77,19 +77,19 @@ export default function Home() {
     <div>
       {/* top */}
       <div className="flex flex-col gap-6 p-20 px-3 max-w-6xl mx-auto">
-        <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
-          Find your <span className="text-slate-500">perfect</span>
+        <h1 className="text-slate-700 font-bold text-3xl lg:text-5xl">
+          Khám phá không gian <span className="text-slate-500">hoàn hảo</span>{" "}
+          cho bạn
           <br />
-          place with ease
         </h1>
         <div className="text-gray-400 text-xs sm:text-base">
-          Hanoi Apartment is the best place to find your next perfect place to
-          live.
+          Hanoi Apartment là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp
+          theo của bạn.
           <br />
-          We have a wide range of properties for you to choose from.{" "}
+          Chúng tôi có rất nhiều lựa chọn đa dạng về bất động sản..{" "}
           <Link to={"/search"}>
             <span className="font-bold text-blue-800  hover:underline">
-              Get started...
+              Khám phá ngay...
             </span>
           </Link>
         </div>
@@ -118,13 +118,13 @@ export default function Home() {
           <div className="">
             <div className="my-3 pt-4 border-t-2 border-slate-700">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent offers
+                Recent Offer
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
                 to={"/search?offer=true"}
               >
-                Show more...
+                Xem thêm...
               </Link>
             </div>
             <div className="flex justify-center items-center">
@@ -140,13 +140,13 @@ export default function Home() {
           <div className="">
             <div className="my-3 pt-4 border-t-2 border-slate-700">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent places for rent
+                Bất động sản cho thuê
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
                 to={"/search?type=rent"}
               >
-                Show more...
+                Xem thêm...
               </Link>
             </div>
             <div className="flex justify-center items-center">
@@ -162,13 +162,13 @@ export default function Home() {
           <div className="">
             <div className="my-3 pt-4 border-t-2 border-slate-700">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent places for sale
+                Bất động sản để bán
               </h2>
               <Link
                 className="text-sm text-blue-800 hover:underline"
                 to={"/search?type=sale"}
               >
-                Show more...
+                Xem thêm...
               </Link>
             </div>
             <div className="flex justify-center items-center">

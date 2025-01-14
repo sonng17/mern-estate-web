@@ -154,14 +154,12 @@ export default function CreateListing() {
   };
   return (
     <main className="p-3 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">
-        Create a Listing
-      </h1>
+      <h1 className="text-3xl font-semibold text-center my-7">Tạo bài đăng</h1>
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col gap-4 flex-1">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Title bài đăng"
             className="border p-3 rounded-lg"
             id="name"
             maxLength="62"
@@ -172,7 +170,7 @@ export default function CreateListing() {
           />
           <textarea
             type="text"
-            placeholder="Description"
+            placeholder="Mô tả"
             className="border p-3 rounded-lg"
             id="description"
             onChange={handleChange}
@@ -181,7 +179,7 @@ export default function CreateListing() {
           />
           <input
             type="text"
-            placeholder="Address"
+            placeholder="Địa chỉ"
             className="border p-3 rounded-lg"
             id="address"
             required
@@ -197,7 +195,7 @@ export default function CreateListing() {
                 onChange={handleChange}
                 checked={formData.type === "sale"}
               />
-              <span>Sell</span>
+              <span>Bán</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -207,7 +205,7 @@ export default function CreateListing() {
                 onChange={handleChange}
                 checked={formData.type === "rent"}
               />
-              <span>Rent</span>
+              <span>Cho thuê</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -217,7 +215,7 @@ export default function CreateListing() {
                 onChange={handleChange}
                 checked={formData.parking}
               />
-              <span>Parking spot</span>
+              <span>Có chỗ đỗ xe</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -227,7 +225,7 @@ export default function CreateListing() {
                 onChange={handleChange}
                 checked={formData.furnished}
               />
-              <span>Furnished</span>
+              <span>Trang bị nội thất</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -252,7 +250,7 @@ export default function CreateListing() {
                 onChange={handleChange}
                 value={formData.bedrooms}
               />
-              <p>Beds</p>
+              <p>Phòng ngủ</p>
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -265,7 +263,7 @@ export default function CreateListing() {
                 onChange={handleChange}
                 value={formData.bathrooms}
               />
-              <p>Baths</p>
+              <p>Phòng tắm</p>
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -279,9 +277,9 @@ export default function CreateListing() {
                 value={formData.regularPrice}
               />
               <div className="flex flex-col items-center">
-                <p>Regular price</p>
+                <p>Giá gốc</p>
                 {formData.type === "rent" && (
-                  <span className="text-xs">($ / month)</span>
+                  <span className="text-xs">(VND/tháng)</span>
                 )}
               </div>
             </div>
@@ -298,9 +296,9 @@ export default function CreateListing() {
                   value={formData.discountPrice}
                 />
                 <div className="flex flex-col items-center">
-                  <p>Discounted price</p>
+                  <p>Giá đã giảm</p>
                   {formData.type === "rent" && (
-                    <span className="text-xs">($ / month)</span>
+                    <span className="text-xs">(VND/tháng)</span>
                   )}
                 </div>
               </div>
@@ -309,9 +307,9 @@ export default function CreateListing() {
         </div>
         <div className="flex flex-col flex-1 gap-4">
           <p className="font-semibold">
-            Images:
+            Ảnh:
             <span className="font-normal text-gray-600 ml-2">
-              The first image will be the cover (max 6)
+              Ảnh đầu sẽ được đặt làm ảnh cover (max 6)
             </span>
           </p>
           <div className="flex gap-4">
@@ -327,7 +325,7 @@ export default function CreateListing() {
               type="button"
               disabled={uploading}
               onClick={handleImageSubmit}
-              className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+              className="p-3 font-semibold text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
             >
               {uploading ? "Uploading..." : "Upload"}
             </button>
@@ -349,17 +347,17 @@ export default function CreateListing() {
                 <button
                   type="button"
                   onClick={() => handleRemoveImage(index)}
-                  className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
+                  className="p-3 font-semibold text-red-700 rounded-lg hover:opacity-75"
                 >
-                  Delete
+                  Xóa
                 </button>
               </div>
             ))}
           <button
             disabled={loading || uploading}
-            className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            className="p-3 font-bold bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           >
-            {loading ? "Creating..." : "Create listing"}
+            {loading ? "Đang tạo..." : "Đăng bài"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
