@@ -602,16 +602,20 @@ export default function AdminPage() {
       render: (text, record) => (
         <div className="flex gap-2">
           <Button
-            className="font-semibold"
+            className="font-semibold w-24"
             type="primary"
+            onClick={() => handleGetListing(record._id)}
+          >
+            Get
+          </Button>
+          <Button
+            className=" w-24 font-semibold bg-inherit text-blue-500 border-2 border-blue-500"
             onClick={() => handleApproveListing(record._id)}
           >
             Approve
           </Button>
           <Button
-            className="font-semibold"
-            type="primary"
-            danger
+            className=" w-24 font-semibold bg-white text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white"
             onClick={() => handleRejectListing(record._id)}
           >
             Reject
