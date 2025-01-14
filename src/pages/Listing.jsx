@@ -152,14 +152,36 @@ export default function Listing() {
                 </p>
                 {listing.offer && (
                   <p className="font-semibold bg-green-900 w-full max-w-[300px] text-white text-center p-1 rounded-md">
-                    Giảm còn{" "}
+                    Đã giảm{" "}
                     <span className="font-semibold">
-                      {+listing.regularPrice - +listing.discountPrice}
-                    </span>{" "}
-                    VND
+                      {(
+                        ((+listing.regularPrice - +listing.discountPrice) /
+                          +listing.regularPrice) *
+                        100
+                      ).toFixed(0)}
+                    </span>
+                    %
                   </p>
                 )}
               </div>
+              {listing.offer ? (
+                <>
+                  <p className="text-slate-800 font-semibold">
+                    <span className=" text-black">Mức giá - </span>
+                    <span className="">
+                      {listing.discountPrice.toLocaleString("en-US")} VND
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-slate-800 font-semibold">
+                    <span className=" text-black">Mức giá - </span>
+                    {listing.regularPrice.toLocaleString("en-US")} VND
+                  </p>
+                </>
+              )}
+
               <p className="text-slate-800">
                 <span className="font-semibold text-black">Mô tả - </span>
                 {listing.description}
