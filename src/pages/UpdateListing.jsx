@@ -398,7 +398,7 @@ export default function UpdateListing() {
                 type="number"
                 id="regularPrice"
                 min="500000"
-                max="10000000000"
+                max="50000000000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={handleChange}
@@ -417,7 +417,7 @@ export default function UpdateListing() {
                   type="number"
                   id="discountPrice"
                   min="500000"
-                  max="10000000000"
+                  max="50000000000"
                   required
                   className="p-3 border border-gray-300 rounded-lg"
                   onChange={handleChange}
