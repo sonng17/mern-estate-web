@@ -2,7 +2,11 @@
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 
-export default function ListingItem({ listing }) {
+export default function ListingItem({
+  listing,
+  isMyListing = false,
+  handleListingDelete,
+}) {
   return (
     <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
       <Link to={`/listing/${listing._id}`}>
@@ -14,7 +18,10 @@ export default function ListingItem({ listing }) {
           alt="listing cover"
           className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300"
         />
-        <div className="p-3 flex flex-col gap-2 w-full">
+      </Link>
+
+      <div className="p-3 flex flex-col gap-2 w-full">
+        <Link to={`/listing/${listing._id}`}>
           <p className="truncate text-lg font-semibold text-slate-700">
             {listing.name}
           </p>
@@ -28,10 +35,10 @@ export default function ListingItem({ listing }) {
             {listing.description}
           </p>
           <p className="text-slate-500 mt-2 font-semibold ">
-            
             {listing.offer
               ? listing.discountPrice.toLocaleString("en-US")
-              : listing.regularPrice.toLocaleString("en-US")} VND
+              : listing.regularPrice.toLocaleString("en-US")}{" "}
+            VND
             {listing.type === "rent" && "/tháng"}
           </p>
           <div className="text-slate-700 flex gap-4">
@@ -46,8 +53,30 @@ export default function ListingItem({ listing }) {
                 : `${listing.bathrooms} phòng tắm `}
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+        {isMyListing ? (
+          <div className="flex h-8 gap-2 rounded-full overflow-hidden">
+            <div className="flex-1 cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-full">
+              {listing.status}
+            </div>
+            <div className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center rounded-full hover:bg-slate-200">
+              <Link to={`/update-listing/${listing._id}`}>
+                <div>Cập nhật</div>
+              </Link>
+            </div>
+            <button
+              onClick={() => {
+                handleListingDelete(listing._id);
+              }}
+              className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center rounded-full hover:bg-slate-200"
+            >
+              Xóa
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }

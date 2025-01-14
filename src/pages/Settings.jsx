@@ -19,7 +19,7 @@ import {
   signOutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -32,7 +32,6 @@ export default function Settings() {
   const [formData, setFormData] = useState({});
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
-  const [showListings, setShowListings] = useState(false);
   const dispatch = useDispatch();
 
   // firebase storage
@@ -45,7 +44,32 @@ export default function Settings() {
     if (file) {
       handleFileUpload(file);
     }
-  }, [file]);
+    handleFetchListings();
+  }, [file, userListings]);
+  const handleFetchListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(
+        `${API_BASE_URL}/api/user/mylistings/${currentUser._id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+        }
+      );
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+      console.log(error);
+    }
+  };
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -102,7 +126,6 @@ export default function Settings() {
       alert("Đã xảy ra lỗi: " + error.message); // Hiển thị lỗi nếu xảy ra
     }
   };
-
   const handleDeleteUser = async () => {
     const confirmDelete = window.confirm(
       "Bạn có chắc chắn muốn xóa tài khoản?"
@@ -111,7 +134,6 @@ export default function Settings() {
     if (!confirmDelete) {
       return; // Dừng lại nếu người dùng nhấn "Cancel"
     }
-
     try {
       dispatch(deleteUserStart());
       const res = await fetch(
@@ -136,7 +158,6 @@ export default function Settings() {
       alert("Đã xảy ra lỗi khi xóa tài khoản: " + error.message); // Thông báo lỗi
     }
   };
-
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
@@ -157,37 +178,14 @@ export default function Settings() {
       dispatch(signOutUserFailure(error.message));
     }
   };
-
-  const handleShowListings = async () => {
-    console.log(showListings);
-    if (!showListings) {
-      try {
-        setShowListingsError(false);
-        const res = await fetch(
-          `${API_BASE_URL}/api/user/mylistings/${currentUser._id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
-          }
-        );
-        const data = await res.json();
-        if (data.success === false) {
-          setShowListingsError(true);
-          return;
-        }
-        setUserListings(data);
-      } catch (error) {
-        setShowListingsError(true);
-        console.log(error);
-      }
-    }
-    setShowListings(!showListings); // Toggle trạng thái hiển thị
-  };
-
   const handleListingDelete = async (listingId) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa bài đăng này?"
+    );
+
+    if (!confirmDelete) {
+      return; // Dừng lại nếu người dùng nhấn "Cancel"
+    }
     try {
       const res = await fetch(
         `${API_BASE_URL}/api/listing/delete/${listingId}`,
@@ -213,162 +211,140 @@ export default function Settings() {
   };
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
+    <>
       <h1 className="text-3xl font-semibold text-center text-slate-700 my-7">
         Cài đặt
       </h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          onChange={(e) => setFile(e.target.files[0])}
-          type="file"
-          ref={fileRef}
-          hidden
-          accept="image/*"
-        />
-        <img
-          onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.avatar}
-          alt="profile"
-          className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
-        />
-        <p className="text-sm self-center">
-          {fileUploadError ? (
-            <span className="text-red-700">
-              Error Image upload (image must be less than 2 mb)
-            </span>
-          ) : filePerc > 0 && filePerc < 100 ? (
-            <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
-          ) : filePerc === 100 ? (
-            <span className="text-green-700">Image successfully uploaded!</span>
-          ) : (
-            ""
-          )}
-        </p>
-        <h1 className="font-bold border-t-2 pt-4 text-slate-500">Username</h1>
-        <input
-          type="text"
-          placeholder="username"
-          defaultValue={currentUser.username}
-          id="username"
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <h1 className="font-bold text-slate-500">Bio</h1>
 
-        <input
-          type="text"
-          placeholder="bio"
-          defaultValue={currentUser.bio}
-          id="bio"
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <h1 className="font-bold text-slate-500">Số điện thoại</h1>
+      <div className="grid grid-cols-3">
+        <div className="p-3 min-w-96 mx-auto">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <input
+              onChange={(e) => setFile(e.target.files[0])}
+              type="file"
+              ref={fileRef}
+              hidden
+              accept="image/*"
+            />
+            <img
+              onClick={() => fileRef.current.click()}
+              src={formData.avatar || currentUser.avatar}
+              alt="profile"
+              className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
+            />
+            <p className="text-sm self-center">
+              {fileUploadError ? (
+                <span className="text-red-700">
+                  Error Image upload (image must be less than 2 mb)
+                </span>
+              ) : filePerc > 0 && filePerc < 100 ? (
+                <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
+              ) : filePerc === 100 ? (
+                <span className="text-green-700">
+                  Image successfully uploaded!
+                </span>
+              ) : (
+                ""
+              )}
+            </p>
+            <h1 className="font-bold border-t-2 pt-4 text-slate-500">
+              Username
+            </h1>
+            <input
+              type="text"
+              placeholder="username"
+              defaultValue={currentUser.username}
+              id="username"
+              className="border p-3 rounded-lg"
+              onChange={handleChange}
+            />
+            <h1 className="font-bold text-slate-500">Bio</h1>
 
-        <input
-          type="text"
-          placeholder="phone"
-          defaultValue={currentUser.phone}
-          id="phone"
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <h1 className="font-bold text-slate-500">Email</h1>
+            <input
+              type="text"
+              placeholder="bio"
+              defaultValue={currentUser.bio}
+              id="bio"
+              className="border p-3 rounded-lg"
+              onChange={handleChange}
+            />
+            <h1 className="font-bold text-slate-500">Số điện thoại</h1>
 
-        <input
-          type="email"
-          placeholder="email"
-          defaultValue={currentUser.email}
-          id="email"
-          className="border p-3 rounded-lg"
-          onChange={handleChange}
-        />
-        <h1 className="font-bold text-slate-500">Password</h1>
+            <input
+              type="text"
+              placeholder="phone"
+              defaultValue={currentUser.phone}
+              id="phone"
+              className="border p-3 rounded-lg"
+              onChange={handleChange}
+            />
+            <h1 className="font-bold text-slate-500">Email</h1>
 
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          className="border p-3 pb-4 mb-4 rounded-lg"
-          onChange={handleChange}
-        />
-        <button
-          disabled={loading}
-          className="bg-slate-700 font-semibold text-white rounded-lg p-3 hover:opacity-95 disabled:opacity-80"
-        >
-          {loading ? "Loading..." : "Cập nhật"}
-        </button>
-      </form>
-      <button
-        onClick={handleShowListings}
-        className="bg-green-700 font-semibold text-white p-3 rounded-lg text-center hover:opacity-95 mt-5 w-full"
-      >
-        {!showListings ? "Hiển thị tất cả bài đăng" : "Đóng tất cả bài đăng"}
-      </button>
-      <p className="text-red-700 mt-5">
-        {showListingsError ? "Error showing listings" : ""}
-      </p>
-      {showListings && userListings && userListings.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <h1 className="text-center mt-7 text-2xl font-semibold">
-            Bài đăng của tôi
-          </h1>
-          {userListings.map((listing) => (
-            <div
-              key={listing._id}
-              className="grid grid-cols-[auto,2fr,auto,auto] gap-4 border rounded-lg p-3 items-center"
+            <input
+              type="email"
+              placeholder="email"
+              defaultValue={currentUser.email}
+              id="email"
+              className="border p-3 rounded-lg"
+              onChange={handleChange}
+            />
+            <h1 className="font-bold text-slate-500">Password</h1>
+
+            <input
+              type="password"
+              placeholder="password"
+              id="password"
+              className="border p-3 pb-4 mb-4 rounded-lg"
+              onChange={handleChange}
+            />
+            <button
+              disabled={loading}
+              className="bg-slate-700 font-semibold text-white rounded-lg p-3 hover:opacity-95 disabled:opacity-80"
             >
-              <Link to={`/listing/${listing._id}`}>
-                <img
-                  src={listing.imageUrls[0]}
-                  alt="listing cover"
-                  className="h-16 w-16 object-contain"
-                />
-              </Link>
-              <Link
-                className="text-slate-700 font-semibold hover:underline truncate"
-                to={`/listing/${listing._id}`}
-              >
-                <p>{listing.name}</p>
-              </Link>
-              <Link
-                className="text-blue-700 font-semibold hover:underline truncate"
-                to={`/listing/${listing._id}`}
-              >
-                <p>{listing.status}</p>
-              </Link>
-              <div className="flex flex-col items-center">
-                <button
-                  onClick={() => handleListingDelete(listing._id)}
-                  className="text-red-700  font-bold"
-                >
-                  Xóa
-                </button>
-                <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 font-semibold">
-                    Cập nhật
-                  </button>
-                </Link>
+              {loading ? "Loading..." : "Cập nhật"}
+            </button>
+            {error ? <p className="text-red-700">{error}</p> : <></>}
+          </form>
+          <button
+            onClick={() => handleDeleteUser()}
+            className="font-bold w-full bg-red-500 cursor-pointer text-white p-3 rounded-lg text-center hover:opacity-95 mt-5"
+          >
+            Xóa tài khoản!
+          </button>
+        </div>
+        <div className="col-span-2 border-l-2 border-slate-700">
+          {showListingsError ? (
+            <p className="text-red-700 mt-5">{showListingsError}</p>
+          ) : (
+            <></>
+          )}
+          {userListings && userListings.length > 0 ? (
+            <div className="gap-4 p-4">
+              <div className="flex flex-wrap gap-6">
+                {userListings.map((listing) => (
+                  <ListingItem
+                    listing={listing}
+                    key={listing._id}
+                    isMyListing={true}
+                    handleListingDelete={handleListingDelete}
+                  />
+                ))}
               </div>
             </div>
-          ))}
+          ) : (
+            <p className="pl-4">Chưa có bài đăng nào.</p>
+          )}
         </div>
-      )}
-      <div className="flex justify-between mt-5">
+      </div>
+
+      <div className="flex flex-row-reverse mt-5 mb-5 px-10">
         <button
-          onClick={handleDeleteUser}
-          className="font-bold bg-red-700 cursor-pointer text-white p-3 rounded-lg text-center hover:opacity-95 mt-5"
-        >
-          Xóa tài khoản!
-        </button>
-        <button
-          onClick={handleSignOut}
+          onClick={() => handleSignOut()}
           className="font-bold bg-slate-500 cursor-pointer text-white p-3 rounded-lg  text-center hover:opacity-95 mt-5"
         >
           Đăng xuất
         </button>
       </div>
-      <p className="text-red-700 mt-5">{error ? error : ""}</p>
-    </div>
+    </>
   );
 }
