@@ -605,13 +605,13 @@ export default function AdminPage() {
           </Button>
           <Button
             className=" w-24 font-semibold bg-inherit text-blue-500 border-2 border-blue-500"
-            onClick={() => handleApproveListing(record._id)}
+            onClick={() => handleApproveListing(record._id, "Approved")}
           >
             Approve
           </Button>
           <Button
             className=" w-24 font-semibold bg-white text-red-500 border-2 border-red-500 hover:bg-red-500 hover:text-white"
-            onClick={() => handleRejectListing(record._id)}
+            onClick={() => handleRejectListing(record._id, "Rejected")}
           >
             Reject
           </Button>
