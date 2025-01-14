@@ -53,13 +53,24 @@ export default function ListingItem({
                 : `${listing.bathrooms} phòng tắm `}
             </div>
           </div>
+          <div className="flex flex-col gap-2 mt-3">
+            <div className="cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-3xl px-4">
+              {listing.provinceRef}
+            </div>
+            <div className="cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-full px-4">
+              {listing.districtRef}
+            </div>
+            <div className="cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-full px-4">
+              {listing.wardRef}
+            </div>
+          </div>
         </Link>
         {isMyListing ? (
-          <div className="flex h-8 gap-2 rounded-full overflow-hidden">
-            <div className="flex-1 cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-full">
+          <div className="flex h-8 gap-2  overflow-hidden">
+            <div className="flex-1 font-semibold border-2 bg-yellow-300 text-blue-500 flex items-center justify-center ">
               {listing.status}
             </div>
-            <div className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center rounded-full hover:bg-slate-200">
+            <div className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center  hover:bg-slate-200">
               <Link to={`/update-listing/${listing._id}`}>
                 <div>Cập nhật</div>
               </Link>
@@ -68,7 +79,7 @@ export default function ListingItem({
               onClick={() => {
                 handleListingDelete(listing._id);
               }}
-              className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center rounded-full hover:bg-slate-200"
+              className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center  hover:bg-red-600 hover:text-white"
             >
               Xóa
             </button>

@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export default function CreateListing() {
+export default function UpdateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const params = useParams();
@@ -21,6 +21,9 @@ export default function CreateListing() {
     name: "",
     description: "",
     address: "",
+    provinceRef: "",
+    districtRef: "",
+    wardRef: "",
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
@@ -34,6 +37,67 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [locationData, setLocationData] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const fetchProvinces = async () => {
+    try {
+      const response = await fetch(
+        "https://provinces.open-api.vn/api/?depth=3"
+      );
+      const data = await response.json();
+      setLocationData(data); // Lưu dữ liệu toàn bộ tỉnh, quận, xã
+    } catch (error) {
+      console.error("Error fetching location data:", error);
+    }
+  };
+  const handleProvinceChange = (e) => {
+    const provinceCode = e.target.value;
+    if (!provinceCode) {
+      setDistricts([]);
+      setWards([]);
+      return;
+    }
+    const selectedProvince = locationData.find(
+      (province) => province.code === +provinceCode
+    );
+    setDistricts(selectedProvince.districts); // Lấy danh sách quận
+    setFormData({
+      ...formData,
+      provinceRef: selectedProvince.name,
+      districtRef: "",
+      wardRef: "",
+    });
+    setWards([]); // Reset danh sách xã
+  };
+  const handleDistrictChange = (e) => {
+    const districtCode = e.target.value;
+    if (!districtCode) {
+      setWards([]);
+      return;
+    }
+    const selectedDistrict = districts.find(
+      (district) => district.code === +districtCode
+    );
+    setWards(selectedDistrict.wards); // Lấy danh sách xã
+    setFormData({
+      ...formData,
+      districtRef: selectedDistrict.name,
+      wardRef: "",
+    });
+  };
+  const handleWardChange = (e) => {
+    const wardName = e.target.value;
+    setFormData({
+      ...formData,
+      wardRef: wardName,
+    });
+  };
+  useEffect(() => {
+    fetchProvinces();
+  }, []);
+  //
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId;
@@ -176,6 +240,7 @@ export default function CreateListing() {
       setLoading(false);
     }
   };
+
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -212,6 +277,43 @@ export default function CreateListing() {
             onChange={handleChange}
             value={formData.address}
           />
+          <label htmlFor="province">Tỉnh/Thành phố:</label>
+          <select id="province" onChange={handleProvinceChange}>
+            <option value="">Chọn tỉnh/thành phố</option>
+            {locationData.map((province) => (
+              <option key={province.code} value={province.code}>
+                {province.name}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="district">Quận/Huyện:</label>
+          <select
+            id="district"
+            onChange={handleDistrictChange}
+            disabled={!districts.length}
+          >
+            <option value="">Chọn quận/huyện</option>
+            {districts.map((district) => (
+              <option key={district.code} value={district.code}>
+                {district.name}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="ward">Xã/Phường:</label>
+          <select
+            id="ward"
+            onChange={handleWardChange}
+            disabled={!wards.length}
+          >
+            <option value="">Chọn xã/phường</option>
+            {wards.map((ward) => (
+              <option key={ward.code} value={ward.name}>
+                {ward.name}
+              </option>
+            ))}
+          </select>
           <div className="flex gap-6 flex-wrap">
             <div className="flex gap-2">
               <input
@@ -295,8 +397,8 @@ export default function CreateListing() {
               <input
                 type="number"
                 id="regularPrice"
-                min="50"
-                max="10000000"
+                min="500000"
+                max="10000000000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
                 onChange={handleChange}
@@ -314,8 +416,8 @@ export default function CreateListing() {
                 <input
                   type="number"
                   id="discountPrice"
-                  min="0"
-                  max="10000000"
+                  min="500000"
+                  max="10000000000"
                   required
                   className="p-3 border border-gray-300 rounded-lg"
                   onChange={handleChange}

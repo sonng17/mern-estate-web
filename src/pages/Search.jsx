@@ -8,6 +8,9 @@ export default function Search() {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
+    provinceRef: "",
+    districtRef: "",
+    wardRef: "",
     type: "all",
     parking: false,
     furnished: false,
@@ -18,11 +21,60 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
-  const location = useLocation();
+  const locationHook = useLocation();
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+
+  console.log(sidebardata, "sidebardata nè");
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
+    // Fetch provinces data
+    const fetchLocationData = async () => {
+      const res = await fetch("https://provinces.open-api.vn/api/?depth=3");
+      const data = await res.json();
+      setProvinces(data);
+    };
+    fetchLocationData();
+  }, []);
+
+  const handleProvinceChange = (e) => {
+    const selectedProvince = provinces.find(
+      (province) => province.code === parseInt(e.target.value)
+    );
+    setSidebardata((prev) => ({
+      ...prev,
+      provinceRef: selectedProvince.name,
+    }));
+    setDistricts(selectedProvince.districts);
+    setWards([]);
+  };
+  const handleDistrictChange = (e) => {
+    const selectedDistrict = districts.find(
+      (district) => district.code === parseInt(e.target.value)
+    );
+    setSidebardata((prev) => ({
+      ...prev,
+      districtRef: `${selectedDistrict.name}`,
+    }));
+    setWards(selectedDistrict.wards);
+  };
+  const handleWardChange = (e) => {
+    const selectedWard = wards.find(
+      (ward) => ward.code === parseInt(e.target.value)
+    );
+    setSidebardata((prev) => ({
+      ...prev,
+      wardRef: `${selectedWard.name}`,
+    }));
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(locationHook.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
+    const provinceRefFromUrl = urlParams.get("provinceRef");
+    const districtRefFromUrl = urlParams.get("districtRef");
+    const wardRefFromUrl = urlParams.get("wardRef");
     const typeFromUrl = urlParams.get("type");
     const parkingFromUrl = urlParams.get("parking");
     const furnishedFromUrl = urlParams.get("furnished");
@@ -31,6 +83,9 @@ export default function Search() {
     const orderFromUrl = urlParams.get("order");
     if (
       searchTermFromUrl ||
+      provinceRefFromUrl ||
+      districtRefFromUrl ||
+      wardRefFromUrl ||
       typeFromUrl ||
       parkingFromUrl ||
       furnishedFromUrl ||
@@ -40,6 +95,9 @@ export default function Search() {
     ) {
       setSidebardata({
         searchTerm: searchTermFromUrl || "",
+        provinceRef: provinceRefFromUrl || "",
+        districtRef: districtRefFromUrl || "",
+        wardRef: wardRefFromUrl || "",
         type: typeFromUrl || "all",
         parking: parkingFromUrl === "true" ? true : false,
         furnished: furnishedFromUrl === "true" ? true : false,
@@ -48,7 +106,6 @@ export default function Search() {
         order: orderFromUrl || "desc",
       });
     }
-
     const fetchListings = async () => {
       setLoading(true);
       setShowMore(false);
@@ -73,7 +130,7 @@ export default function Search() {
       setLoading(false);
     };
     fetchListings();
-  }, [location.search]);
+  }, [locationHook.search]);
 
   const handleChange = (e) => {
     if (
@@ -85,6 +142,15 @@ export default function Search() {
     }
     if (e.target.id === "searchTerm") {
       setSidebardata({ ...sidebardata, searchTerm: e.target.value });
+    }
+    if (e.target.id === "provinceRef") {
+      setSidebardata({ ...sidebardata, provinceRef: e.target.value });
+    }
+    if (e.target.id === "districtRef") {
+      setSidebardata({ ...sidebardata, districtRef: e.target.value });
+    }
+    if (e.target.id === "wardRef") {
+      setSidebardata({ ...sidebardata, wardRef: e.target.value });
     }
     if (
       e.target.id === "parking" ||
@@ -107,6 +173,9 @@ export default function Search() {
     e.preventDefault();
     const urlParams = new URLSearchParams();
     urlParams.set("searchTerm", sidebardata.searchTerm);
+    urlParams.set("provinceRef", sidebardata.provinceRef);
+    urlParams.set("districtRef", sidebardata.districtRef);
+    urlParams.set("wardRef", sidebardata.wardRef);
     urlParams.set("type", sidebardata.type);
     urlParams.set("parking", sidebardata.parking);
     urlParams.set("furnished", sidebardata.furnished);
@@ -119,7 +188,7 @@ export default function Search() {
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;
     const startIndex = numberOfListings;
-    const urlParams = new URLSearchParams(location.search);
+    const urlParams = new URLSearchParams(locationHook.search);
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
     const res = await fetch(`${API_BASE_URL}/api/listing/get?${searchQuery}`, {
@@ -135,9 +204,26 @@ export default function Search() {
     }
     setListings([...listings, ...data]);
   };
+  const resetFilters = () => {
+    setSidebardata({
+      searchTerm: "",
+      provinceRef: "",
+      districtRef: "",
+      wardRef: "",
+      type: "all",
+      parking: false,
+      furnished: false,
+      offer: false,
+      sort: "created_at",
+      order: "desc",
+    });
+    setDistricts([]);
+    setWards([]);
+  };
 
   return (
     <div className="flex flex-col md:flex-row">
+      {/* --------------Phần lọc------------------------- */}
       <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
@@ -151,6 +237,59 @@ export default function Search() {
               onChange={handleChange}
             />
           </div>
+          <div className="flex flex-col gap-4">
+            <label className="font-semibold">Chọn địa điểm:</label>
+            <select
+              id="provinceRef"
+              onChange={handleProvinceChange}
+              className="border rounded-lg p-3"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Chọn thành phố
+              </option>
+              {provinces.map((province) => (
+                <option key={province.code} value={province.code}>
+                  {province.name}
+                </option>
+              ))}
+            </select>
+            {districts.length > 0 && (
+              <select
+                id="districtRef"
+                onChange={handleDistrictChange}
+                className="border rounded-lg p-3"
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Chọn quận/huyện
+                </option>
+                {districts.map((district) => (
+                  <option key={district.code} value={district.code}>
+                    {district.name}
+                  </option>
+                ))}
+              </select>
+            )}
+            {wards.length > 0 && (
+              <select
+                id="wardRef"
+                onChange={handleWardChange}
+                className="border rounded-lg p-3"
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Chọn xã/phường
+                </option>
+                {wards.map((ward) => (
+                  <option key={ward.code} value={ward.code}>
+                    {ward.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+
           <div className="flex gap-2 flex-wrap items-center">
             <label className="font-semibold">Loại:</label>
             <div className="flex gap-2">
@@ -236,8 +375,16 @@ export default function Search() {
           <button className="bg-slate-700 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95">
             Tìm kiếm
           </button>
+          <button
+            type="button"
+            onClick={resetFilters}
+            className="bg-red-600 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95"
+          >
+            Xóa bộ lọc
+          </button>
         </form>
       </div>
+      {/*---------------- Phần kết quả ---------------------- */}
       <div className="flex-1">
         <h1 className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
           Kết quả tìm kiếm:

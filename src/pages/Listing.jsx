@@ -135,10 +135,11 @@ export default function Listing() {
           <div className="grid grid-cols-[2fr_1fr] ">
             <div className="flex flex-col p-10 my-7 gap-4 ">
               <p className="text-2xl font-semibold">
-                {listing.name} - {" "}
+                {listing.name} -{" "}
                 {listing.offer
                   ? listing.discountPrice.toLocaleString("en-US")
-                  : listing.regularPrice.toLocaleString("en-US")} VND
+                  : listing.regularPrice.toLocaleString("en-US")}{" "}
+                VND
                 {listing.type === "rent" && "/tháng"}
               </p>
               <p className="flex items-center gap-2 text-slate-600  text-sm">
@@ -151,7 +152,11 @@ export default function Listing() {
                 </p>
                 {listing.offer && (
                   <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                    Giảm còn <span className="font-semibold">{+listing.regularPrice - +listing.discountPrice}</span> VND
+                    Giảm còn{" "}
+                    <span className="font-semibold">
+                      {+listing.regularPrice - +listing.discountPrice}
+                    </span>{" "}
+                    VND
                   </p>
                 )}
               </div>
@@ -178,8 +183,21 @@ export default function Listing() {
                 </li>
                 <li className="flex items-center gap-1 whitespace-nowrap ">
                   <FaChair className="text-lg" />
-                  {listing.furnished ? "Trang bị nội thất" : "Không có nội thất "}
+                  {listing.furnished
+                    ? "Trang bị nội thất"
+                    : "Không có nội thất "}
                 </li>
+              </ul>
+              <ul className="flex flex-wrap items-center gap-4 sm:gap-6">
+                <li className=" font-semibold bg-blue-500 text-white flex items-center justify-center rounded-3xl px-4">
+                  {listing.provinceRef}
+                </li>
+                <div className="font-semibold bg-blue-500 text-white flex items-center justify-center rounded-full px-4">
+                  {listing.districtRef}
+                </div>
+                <div className="font-semibold bg-blue-500 text-white flex items-center justify-center rounded-full px-4">
+                  {listing.wardRef}
+                </div>
               </ul>
             </div>
 
