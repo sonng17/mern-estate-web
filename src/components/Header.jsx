@@ -50,19 +50,19 @@ export default function Header() {
 
         <ul className="flex flex-wrap items-center gap-7">
           <Link to="/">
-            <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
+            <li className="bg-slate-500 text-slate-100 hover:bg-slate-400 sm:inline font-bold  p-2 no-underline hover:font-bold  rounded-3xl border-2 border-slate-100 ">
               Trang chủ
             </li>
           </Link>
           {!currentUser ? (
             <Link to="/about">
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
+              <li className="sm:inline font-bold bg-slate-500 text-slate-100 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-3xl border-2 border-slate-100">
                 Thông tin
               </li>
             </Link>
           ) : (
             <Link to={`/create-listing`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
+              <li className="bg-slate-500 text-slate-100 sm:inline font-bold  p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-3xl border-2 border-slate-100">
                 Đăng tin
               </li>
             </Link>
@@ -70,7 +70,7 @@ export default function Header() {
 
           {currentUser && (
             <Link to={`/profile/${currentUser._id}`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
+              <li className="sm:inline font-bold bg-slate-500 text-slate-100 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-3xl border-2 border-slate-100">
                 Hồ sơ
               </li>
             </Link>
@@ -78,7 +78,7 @@ export default function Header() {
 
           {currentUser && currentUser.role === "admin" && (
             <Link to={`/admin`}>
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
+              <li className="sm:inline font-bold bg-slate-500 text-slate-100 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-3xl border-2 border-slate-100">
                 Quản lý
               </li>
             </Link>
@@ -98,7 +98,7 @@ export default function Header() {
                 alt="profile"
               />
             ) : (
-              <li className="sm:inline font-bold text-slate-500 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-2xl border-2 border-slate-400">
+              <li className="sm:inline font-bold bg-slate-500 text-slate-100 p-2 no-underline hover:font-bold hover:bg-slate-300 rounded-3xl border-2 border-slate-100">
                 Đăng nhập
               </li>
             )}
