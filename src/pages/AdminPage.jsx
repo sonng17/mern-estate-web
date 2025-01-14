@@ -335,11 +335,9 @@ export default function AdminPage() {
     const confirmDelete = window.confirm(
       "Bạn có chắc chắn muốn xóa bài đăng này?"
     );
-
     if (!confirmDelete) {
       return; // Dừng lại nếu người dùng nhấn "Cancel"
     }
-
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/deleteListing/${id}`, {
         method: "DELETE",
@@ -372,11 +370,8 @@ export default function AdminPage() {
       });
       if (res.ok) {
         message.success(`Listing status updated to ${status}`);
-        setListings(
-          listings.map((listing) =>
-            listing._id === id ? { ...listing, status } : listing
-          )
-        );
+        fetchPendingListings();
+        fetchListings();
       } else {
         const data = await res.json();
         message.error(data.message || "Failed to update listing status");
@@ -386,7 +381,7 @@ export default function AdminPage() {
       console.log(error);
     }
   };
-  const handleApproveListing = async (id) => {
+  const handleApproveListing = async (id, status) => {
     try {
       const res = await fetch(
         `${API_BASE_URL}/api/admin/approveListing/${id}`,
@@ -395,14 +390,14 @@ export default function AdminPage() {
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ status }),
           credentials: "include",
         }
       );
       if (res.ok) {
-        message.success("Listing approved successfully");
-        setPendingListings(
-          pendingListings.filter((listing) => listing._id !== id)
-        );
+        message.success(`Listing status updated to ${status}`);
+        fetchPendingListings();
+        fetchListings();
       } else {
         const data = await res.json();
         message.error(data.message || "Failed to approve listing");
@@ -412,20 +407,20 @@ export default function AdminPage() {
       console.log(error);
     }
   };
-  const handleRejectListing = async (id) => {
+  const handleRejectListing = async (id, status) => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/rejectListing/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ status }),
         credentials: "include",
       });
       if (res.ok) {
-        message.success("Listing rejected successfully");
-        setPendingListings(
-          pendingListings.filter((listing) => listing._id !== id)
-        );
+        message.success(`Listing status updated to ${status}`);
+        fetchPendingListings();
+        fetchListings();
       } else {
         const data = await res.json();
         message.error(data.message || "Failed to reject listing");
