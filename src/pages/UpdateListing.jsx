@@ -27,7 +27,8 @@ export default function UpdateListing() {
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
-    regularPrice: 50,
+    area: 10,
+    regularPrice: 0,
     discountPrice: 0,
     offer: false,
     parking: false,
@@ -392,6 +393,19 @@ export default function UpdateListing() {
                 value={formData.bathrooms}
               />
               <p>Phòng tắm</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                id="area"
+                min="1"
+                max="1000"
+                required
+                className="p-3 border border-gray-300 rounded-lg"
+                onChange={handleChange}
+                value={formData.area}
+              />
+              <p>Diện tích</p>
             </div>
             <div className="flex items-center gap-2">
               <input

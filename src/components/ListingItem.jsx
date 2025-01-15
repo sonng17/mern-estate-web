@@ -52,6 +52,7 @@ export default function ListingItem({
                 ? `${listing.bathrooms} phòng tắm `
                 : `${listing.bathrooms} phòng tắm `}
             </div>
+            <div className="font-bold text-xs">{listing.area}m2</div>
           </div>
           <div className="flex flex-col gap-2 mt-3">
             <div className="cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-3xl px-4">

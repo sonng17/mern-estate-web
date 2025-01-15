@@ -11,6 +11,7 @@ import {
   FaMapMarkerAlt,
   FaParking,
   FaShare,
+  FaChartArea,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -182,6 +183,11 @@ export default function Listing() {
                 </>
               )}
 
+              <p className="text-slate-800 font-semibold">
+                <span className=" text-black">Diện tích - </span>
+                {listing.area}m2
+              </p>
+
               <p className="text-slate-800">
                 <span className="font-semibold text-black">Mô tả - </span>
                 {listing.description}
@@ -208,6 +214,10 @@ export default function Listing() {
                   {listing.furnished
                     ? "Trang bị nội thất"
                     : "Không có nội thất "}
+                </li>
+                <li className="flex items-center gap-1 whitespace-nowrap ">
+                  <FaChartArea className="text-lg" />
+                  {listing.area}m2
                 </li>
               </ul>
               <ul className="flex flex-wrap items-center gap-4 sm:gap-6">

@@ -364,6 +364,10 @@ export default function Search() {
               id="sort_order"
               className="border rounded-lg p-3"
             >
+              <option value="area_desc">
+                Theo diện tích từ cao xuống thấp
+              </option>
+              <option value="area_asc">Theo diện tích từ thấp lên cao</option>
               <option value="regularPrice_desc">
                 Theo giá từ cao xuống thấp
               </option>

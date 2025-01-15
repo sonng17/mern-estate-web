@@ -26,6 +26,7 @@ export default function CreateListing() {
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
+    area: 10,
     regularPrice: 0,
     discountPrice: 0,
     offer: false,
@@ -345,32 +346,48 @@ export default function CreateListing() {
           </div>
           {/* select room number */}
           <div className="flex flex-wrap gap-6">
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bedrooms"
-                min="1"
-                max="10"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.bedrooms}
-              />
-              <p>Phòng ngủ</p>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="bedrooms"
+                  min="1"
+                  max="10"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg"
+                  onChange={handleChange}
+                  value={formData.bedrooms}
+                />
+                <p>Phòng ngủ</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="bathrooms"
+                  min="1"
+                  max="10"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg"
+                  onChange={handleChange}
+                  value={formData.bathrooms}
+                />
+                <p>Phòng tắm</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="area"
+                  min="1"
+                  max="1000"
+                  required
+                  className="p-3 border border-gray-300 rounded-lg"
+                  onChange={handleChange}
+                  value={formData.area}
+                />
+                <p>Diện tích (m2)</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="bathrooms"
-                min="1"
-                max="10"
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.bathrooms}
-              />
-              <p>Phòng tắm</p>
-            </div>
+
             <div className="flex items-center gap-2">
               <input
                 type="number"
