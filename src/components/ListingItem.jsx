@@ -1,12 +1,19 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
+import { formatDistanceToNow } from "date-fns";
+import { vi } from "date-fns/locale"; // Để hiển thị tiếng Việt
 
 export default function ListingItem({
   listing,
   isMyListing = false,
   handleListingDelete,
 }) {
+  // Tính khoảng cách thời gian từ thời điểm tạo đến hiện tại
+  const timeAgo = formatDistanceToNow(new Date(listing.createdAt), {
+    addSuffix: true, // Thêm hậu tố như "trước"
+    locale: vi, // Đặt ngôn ngữ tiếng Việt
+  });
   return (
     <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
       <Link to={`/listing/${listing._id}`}>
@@ -41,7 +48,9 @@ export default function ListingItem({
             VND
             {listing.type === "rent" && "/tháng"}
           </p>
-          <div className="text-slate-700 flex gap-4">
+          <p className="text-slate-500 font-semibold ">{timeAgo}</p>
+
+          <div className="text-slate-700 flex gap-4 mt-2">
             <div className="font-bold text-xs">
               {listing.bedrooms > 1
                 ? `${listing.bedrooms} phòng ngủ `
@@ -54,6 +63,7 @@ export default function ListingItem({
             </div>
             <div className="font-bold text-xs">{listing.area}m2</div>
           </div>
+
           <div className="flex flex-col gap-2 mt-3">
             <div className="cursor-pointer font-semibold bg-blue-500 text-white flex items-center justify-center rounded-3xl px-4">
               {listing.provinceRef}

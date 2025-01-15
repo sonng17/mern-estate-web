@@ -90,8 +90,15 @@ export default function Listing() {
     fetchUserProfile();
   }, [listing]);
 
-  console.log(error);
-  console.log(userProfile);
+  // Lấy ngày từ createdAt
+  const createdAtDate = new Date(listing?.createdAt).toLocaleDateString(
+    "vi-VN",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }
+  );
 
   return (
     <main>
@@ -186,6 +193,10 @@ export default function Listing() {
               <p className="text-slate-800 font-semibold">
                 <span className=" text-black">Diện tích - </span>
                 {listing.area}m2
+              </p>
+              
+              <p className="text-slate-800 font-semibold">
+                <span className=" text-black">Ngày đăng - {createdAtDate}</span>
               </p>
 
               <p className="text-slate-800">
