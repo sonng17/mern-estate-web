@@ -46,9 +46,10 @@ export default function Settings() {
     }
     handleFetchListings();
   }, [file]);
+
   const handleFetchListings = async () => {
     try {
-      setShowListingsError(false);
+      setShowListingsError(false); // Reset lỗi trước khi bắt đầu lấy dữ liệu
       const res = await fetch(
         `${API_BASE_URL}/api/user/mylistings/${currentUser._id}`,
         {
@@ -59,15 +60,27 @@ export default function Settings() {
           credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
         }
       );
+
+      // Kiểm tra nếu phản hồi có lỗi
+      if (!res.ok) {
+        throw new Error("Failed to fetch listings.");
+      }
+
       const data = await res.json();
-      if (data.success === false) {
-        setShowListingsError(true);
+
+      // Kiểm tra nếu không có danh sách nào
+      if (data.message === "No listings found for this user.") {
+        setShowListingsError(true); // Hiển thị lỗi nếu không có danh sách
+        setUserListings([]); // Đặt danh sách là mảng rỗng
         return;
       }
+
+      // Nếu có danh sách, cập nhật trạng thái với dữ liệu
       setUserListings(data);
     } catch (error) {
-      setShowListingsError(true);
-      console.log(error);
+      // Xử lý các lỗi khi lấy dữ liệu
+      setShowListingsError(true); // Hiển thị lỗi
+      console.log(error); // In lỗi ra console để dễ dàng kiểm tra
     }
   };
 
@@ -226,7 +239,10 @@ export default function Settings() {
               hidden
               accept="image/*"
             />
-            <div onClick={() => fileRef.current.click()} className="flex flex-col justify-center gap-3">
+            <div
+              onClick={() => fileRef.current.click()}
+              className="flex flex-col justify-center gap-3"
+            >
               <img
                 src={formData.avatar || currentUser.avatar}
                 alt="profile"
