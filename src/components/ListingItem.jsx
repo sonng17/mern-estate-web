@@ -15,7 +15,7 @@ export default function ListingItem({
     locale: vi, // Đặt ngôn ngữ tiếng Việt
   });
   return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
+    <div className="bg-white shadow-2xl transform translate-y-[-4px] overflow-hidden rounded-lg w-full sm:w-[330px]">
       <Link to={`/listing/${listing._id}`}>
         <img
           src={
@@ -92,26 +92,9 @@ export default function ListingItem({
         </Link>
         {isMyListing ? (
           <div className="flex h-8 gap-2  overflow-hidden">
-            {listing.status === "approved" ? (
-              <>
-                <div className="flex-1 font-semibold border-2 bg-green-600 text-white flex items-center justify-center ">
-                  Đã duyệt
-                </div>
-              </>
-            ) : listing.status === "rejected" ? (
-              <>
-                <div className="flex-1 font-semibold border-2 bg-red-700 text-white flex items-center justify-center ">
-                  Từ chối
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex-1 font-semibold border-2 bg-yellow-500 text-white flex items-center justify-center ">
-                  Chờ duyệt
-                </div>
-              </>
-            )}
-
+            <div className="flex-1 font-semibold border-2 bg-green-600 text-white flex items-center justify-center ">
+              {listing.status}
+            </div>
             <div className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center  hover:bg-slate-200">
               <Link to={`/update-listing/${listing._id}`}>
                 <div>Cập nhật</div>
