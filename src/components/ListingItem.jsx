@@ -92,9 +92,24 @@ export default function ListingItem({
         </Link>
         {isMyListing ? (
           <div className="flex h-8 gap-2  overflow-hidden">
-            <div className="flex-1 font-semibold border-2 bg-green-600 text-white flex items-center justify-center ">
-              {listing.status}
-            </div>
+            {listing.status === "approved" ? (
+              <>
+                <div className="flex-1 font-semibold border-2 bg-green-700 text-white flex items-center justify-center ">
+                  Đã duyệt
+                </div>
+              </>
+            ) : listing.status === "rejected" ? (
+              <div className="flex-1 font-semibold border-2 bg-red-700 text-white flex items-center justify-center ">
+                Từ chối
+              </div>
+            ) : (
+              <>
+                <div className="flex-1 font-semibold border-2 bg-yellow-500 text-white flex items-center justify-center ">
+                  Chờ duyệt
+                </div>
+              </>
+            )}
+
             <div className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center  hover:bg-slate-200">
               <Link to={`/update-listing/${listing._id}`}>
                 <div>Cập nhật</div>
