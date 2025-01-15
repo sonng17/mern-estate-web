@@ -17,6 +17,7 @@ export default function Search() {
     offer: false,
     sort: "created_at",
     order: "desc",
+    areaRange: "", // Thêm trường diện tích
   });
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
@@ -81,6 +82,7 @@ export default function Search() {
     const offerFromUrl = urlParams.get("offer");
     const sortFromUrl = urlParams.get("sort");
     const orderFromUrl = urlParams.get("order");
+    const areaRangeFromUrl = urlParams.get("areaRange");
     if (
       searchTermFromUrl ||
       provinceRefFromUrl ||
@@ -91,7 +93,8 @@ export default function Search() {
       furnishedFromUrl ||
       offerFromUrl ||
       sortFromUrl ||
-      orderFromUrl
+      orderFromUrl ||
+      areaRangeFromUrl
     ) {
       setSidebardata({
         searchTerm: searchTermFromUrl || "",
@@ -104,6 +107,7 @@ export default function Search() {
         offer: offerFromUrl === "true" ? true : false,
         sort: sortFromUrl || "created_at",
         order: orderFromUrl || "desc",
+        areaRange: areaRangeFromUrl || "",
       });
     }
     const fetchListings = async () => {
@@ -133,6 +137,9 @@ export default function Search() {
   }, [locationHook.search]);
 
   const handleChange = (e) => {
+    if (e.target.id === "areaRange") {
+      setSidebardata({ ...sidebardata, areaRange: e.target.value });
+    }
     if (
       e.target.id === "all" ||
       e.target.id === "rent" ||
@@ -182,6 +189,7 @@ export default function Search() {
     urlParams.set("offer", sidebardata.offer);
     urlParams.set("sort", sidebardata.sort);
     urlParams.set("order", sidebardata.order);
+    urlParams.set("areaRange", sidebardata.areaRange);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
@@ -216,6 +224,7 @@ export default function Search() {
       offer: false,
       sort: "created_at",
       order: "desc",
+      areaRange: "",
     });
     setDistricts([]);
     setWards([]);
@@ -225,7 +234,7 @@ export default function Search() {
     <div className="flex flex-col md:flex-row">
       {/* --------------Phần lọc------------------------- */}
       <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">Tìm kiếm:</label>
             <input
@@ -356,18 +365,14 @@ export default function Search() {
               <span>Trang bị nội thất</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <label className="font-semibold">Lọc:</label>
+          <div className="flex flex-col gap-4">
+            <label className="font-semibold">Lọc theo giá:</label>
             <select
               onChange={handleChange}
               defaultValue={"created_at_desc"}
               id="sort_order"
               className="border rounded-lg p-3"
             >
-              <option value="area_desc">
-                Theo diện tích từ cao xuống thấp
-              </option>
-              <option value="area_asc">Theo diện tích từ thấp lên cao</option>
               <option value="regularPrice_desc">
                 Theo giá từ cao xuống thấp
               </option>
@@ -376,6 +381,24 @@ export default function Search() {
               <option value="createdAt_asc">Cũ nhất</option>
             </select>
           </div>
+          <div className="flex flex-col gap-4">
+            <label className="font-semibold">Lọc theo diện tích:</label>
+            <select
+              id="areaRange"
+              onChange={handleChange}
+              className="border rounded-lg p-3"
+              defaultValue=""
+            >
+              <option value="">Chọn khoảng diện tích</option>
+              <option value="">Tất cả các loại</option>
+              <option value="10-50">10 - 50 m²</option>
+              <option value="50-100">50 - 100 m²</option>
+              <option value="100-150">100 - 150 m²</option>
+              <option value="150-200">150 - 200 m²</option>
+              <option value="greaterThan200">Trên 200 m²</option>
+            </select>
+          </div>
+
           <button className="bg-slate-700 font-semibold text-white p-3 rounded-lg uppercase hover:opacity-95">
             Tìm kiếm
           </button>
