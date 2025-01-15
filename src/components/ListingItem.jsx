@@ -41,14 +41,28 @@ export default function ListingItem({
           <p className="text-sm text-gray-600 line-clamp-2">
             {listing.description}
           </p>
-          <p className="text-slate-500 mt-2 font-semibold ">
-            {listing.offer
-              ? listing.discountPrice.toLocaleString("en-US")
-              : listing.regularPrice.toLocaleString("en-US")}{" "}
-            VND
-            {listing.type === "rent" && "/tháng"}
-          </p>
-          <p className="text-slate-500 font-semibold ">{timeAgo}</p>
+
+          <div className="flex justify-between">
+            <div>
+              <p className="text-slate-500 mt-2 font-semibold ">
+                {listing.offer
+                  ? listing.discountPrice.toLocaleString("en-US")
+                  : listing.regularPrice.toLocaleString("en-US")}{" "}
+                VND
+                {listing.type === "rent" && "/tháng"}
+              </p>
+              <p className="text-slate-500 font-semibold ">{timeAgo}</p>
+            </div>
+            {listing.type === "rent" ? (
+              <div className="cursor-pointer font-semibold bg-yellow-400 text-white flex items-center justify-center rounded-2xl px-2 mt-5">
+                Cho thuê
+              </div>
+            ) : (
+              <div className="cursor-pointer font-semibold bg-red-600 text-white flex items-center justify-center rounded-2xl px-4 mt-5">
+                Bán
+              </div>
+            )}
+          </div>
 
           <div className="text-slate-700 flex gap-4 mt-2">
             <div className="font-bold text-xs">
@@ -78,7 +92,7 @@ export default function ListingItem({
         </Link>
         {isMyListing ? (
           <div className="flex h-8 gap-2  overflow-hidden">
-            <div className="flex-1 font-semibold border-2 bg-yellow-300 text-blue-500 flex items-center justify-center ">
+            <div className="flex-1 font-semibold border-2 bg-green-600 text-white flex items-center justify-center ">
               {listing.status}
             </div>
             <div className="flex-1 font-semibold border-2 text-blue-500 flex items-center justify-center  hover:bg-slate-200">
