@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import L from "leaflet"; // Import Leaflet
 import "leaflet/dist/leaflet.css";
+import ReactDOMServer from "react-dom/server";
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -121,6 +122,26 @@ export default function Listing() {
           const [lon, lat] = data.features[0].geometry.coordinates; // Lon, Lat format
           console.log("Coordinates:", lon, lat); // Kiểm tra tọa độ trả về
 
+          // Chuyển React component thành HTML
+          const iconHtml = ReactDOMServer.renderToStaticMarkup(
+            <div
+              style={{
+                fontSize: "24px",
+                color: "#0000FF",
+                textAlign: "center",
+              }}
+            >
+              <FaMapMarkerAlt />
+            </div>
+          );
+          // Tạo icon tùy chỉnh từ React Icon
+          const customIcon = L.divIcon({
+            className: "custom-icon",
+            html: iconHtml,
+            iconSize: [30, 30], // Kích thước của icon
+            iconAnchor: [15, 30], // Vị trí của marker
+            popupAnchor: [0, -30], // Vị trí popup
+          });
           // Hiển thị bản đồ
           const map = L.map("map").setView([lat, lon], 15);
 
@@ -129,7 +150,7 @@ export default function Listing() {
               '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           }).addTo(map);
 
-          L.marker([lat, lon])
+          L.marker([lat, lon], { icon: customIcon })
             .addTo(map)
             .bindPopup("Vị trí bất động sản")
             .openPopup();
