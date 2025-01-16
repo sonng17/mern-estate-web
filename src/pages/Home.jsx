@@ -77,8 +77,8 @@ export default function Home() {
     <div>
       {/* top */}
       <div className="flex flex-col gap-6 p-20 px-3 max-w-6xl mx-auto">
-        <h1 className="text-slate-700 font-bold text-3xl lg:text-5xl">
-          Khám phá không gian <span className="text-slate-500">hoàn hảo</span>{" "}
+        <h1 className="text-slate-700 font-bold text-3xl lg:text-4xl">
+          Tìm kiếm <span className="text-slate-500">không gian</span>{" "}
           cho bạn
           <br />
         </h1>
@@ -106,7 +106,7 @@ export default function Home() {
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: "cover",
                 }}
-                className="h-[500px]"
+                className="h-[700px]"
                 key={listing._id}
               ></div>
             </SwiperSlide>
