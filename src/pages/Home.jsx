@@ -7,6 +7,14 @@ import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const imageNames = [
+  "image1.jpg",
+  "image2.jpg",
+  "image3.jpg",
+  "image4.jpg",
+  "image5.jpg",
+  "image6.jpg",
+];
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -78,13 +86,12 @@ export default function Home() {
       {/* top */}
       <div className="flex flex-col gap-6 p-20 px-3 max-w-6xl mx-auto">
         <h1 className="text-slate-700 font-bold text-3xl lg:text-4xl">
-          Tìm kiếm <span className="text-slate-500">không gian</span>{" "}
-          cho bạn
+          Tìm kiếm <span className="text-slate-500">không gian</span> cho bạn
           <br />
         </h1>
         <div className="text-gray-400 text-xs sm:text-base">
-          Mern Estate là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp
-          theo của bạn.
+          Mern Estate là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp theo
+          của bạn.
           <br />
           Chúng tôi có rất nhiều lựa chọn đa dạng về bất động sản..{" "}
           <Link to={"/search"}>
@@ -96,22 +103,19 @@ export default function Home() {
       </div>
       {/* swiper */}
       <Swiper navigation>
-        {offerListings &&
-          offerListings.length > 0 &&
-          offerListings.map((listing) => (
-            // eslint-disable-next-line react/jsx-key
-            <SwiperSlide>
-              <div
-                style={{
-                  background: `url(${listing.imageUrls[0]}) center no-repeat`,
-                  backgroundSize: "cover",
-                }}
-                className="h-[700px]"
-                key={listing._id}
-              ></div>
-            </SwiperSlide>
-          ))}
+        {imageNames.map((imageName, index) => (
+          <SwiperSlide key={index}>
+            <div
+              style={{
+                background: `url(/public/images/${imageName}) center no-repeat`,
+                backgroundSize: "cover",
+              }}
+              className="h-[650px] w-auto"
+            ></div>
+          </SwiperSlide>
+        ))}
       </Swiper>
+
       {/* listing results for offer, sale and rent */}
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10 ">
         {offerListings && offerListings.length > 0 && (
