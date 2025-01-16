@@ -18,10 +18,10 @@ import { useSelector } from "react-redux";
 import L from "leaflet"; // Import Leaflet
 import "leaflet/dist/leaflet.css";
 import ReactDOMServer from "react-dom/server";
+import ListingItem from "../components/ListingItem";
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const GEOAPIFY = import.meta.env.GEOAPIFY_API_KEY;
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -31,9 +31,9 @@ export default function Listing() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [sameListings, setSameListings] = useState([]);
+
   const params = useParams();
-  console.log(GEOAPIFY);
-  console.log(API_BASE_URL);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -167,6 +167,31 @@ export default function Listing() {
 
     fetchCoordinates();
   }, [listing]);
+
+  useEffect(() => {
+    const fetchSameListings = async () => {
+      try {
+        const res = await fetch(
+          `${API_BASE_URL}/api/listing/get-same-listings/${params.listingId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+          }
+        );
+        const data = await res.json();
+        if (data.success === false) {
+          return;
+        }
+        setSameListings(data.listings);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSameListings();
+  }, []);
 
   // Lấy ngày từ createdAt
   const createdAtDate = new Date(listing?.createdAt).toLocaleDateString(
@@ -370,6 +395,20 @@ export default function Listing() {
               </div>
             </div>
           </div>
+          <h1 className="ml-10 my-6 text-3xl font-semibold">
+            Các bài đăng tương tự
+          </h1>
+          {sameListings.length > 0 ? (
+            <div className="ml-10 mb-5">
+              <div className="flex flex-wrap gap-4">
+                {sameListings.map((listing) => (
+                  <ListingItem listing={listing} key={listing._id} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <p className="ml-10 mb-5">Chưa có bài đăng nào.</p>
+          )}
         </div>
       )}
     </main>

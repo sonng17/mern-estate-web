@@ -129,7 +129,7 @@ export default function Profile() {
             </div>
           </div>
         ) : (
-          <p className="pl-32">Has no listing yet.</p>
+          <p className="pl-32">Chưa có bài đăng nào.</p>
         )}
       </div>
     </>
