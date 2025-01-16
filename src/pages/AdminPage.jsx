@@ -350,7 +350,6 @@ export default function AdminPage() {
           </Button>
           <Button
             className="font-semibold w-40 text-blue-500 border-2 border-blue-500"
-
             onClick={() => handlePromoteUser(record._id, "Admin")}
           >
             Promote to Admin
@@ -452,20 +451,32 @@ export default function AdminPage() {
       console.log(error);
     }
   };
-  const handleRejectListing = async (id, status) => {
+  const handleRejectListing = async (id) => {
     try {
+      // Hiển thị prompt để admin nhập lý do từ chối
+      const reason = prompt(
+        "Nhập lý do từ chối duyệt:"
+      );
+
+      // Nếu admin không nhập lý do, dừng hàm
+      if (!reason) {
+        return;
+      }
+
+      // Gửi request đến API với lý do từ chối
       const res = await fetch(`${API_BASE_URL}/api/admin/rejectListing/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ message: reason }), // Gửi lý do trong body
         credentials: "include",
       });
+
       if (res.ok) {
-        message.success(`Listing status updated to ${status}`);
-        fetchPendingListings();
-        fetchListings();
+        message.success(`Listing has been rejected successfully.`);
+        fetchPendingListings(); // Cập nhật danh sách bài đăng chờ
+        fetchListings(); // Cập nhật danh sách bài đăng
       } else {
         const data = await res.json();
         message.error(data.message || "Failed to reject listing");
@@ -475,6 +486,7 @@ export default function AdminPage() {
       console.log(error);
     }
   };
+
   const listingColumns = [
     {
       title: "Name",
