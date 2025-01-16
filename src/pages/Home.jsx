@@ -83,7 +83,7 @@ export default function Home() {
           <br />
         </h1>
         <div className="text-gray-400 text-xs sm:text-base">
-          Hanoi Apartment là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp
+          Mern Estate là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp
           theo của bạn.
           <br />
           Chúng tôi có rất nhiều lựa chọn đa dạng về bất động sản..{" "}

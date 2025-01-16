@@ -2,11 +2,11 @@ export default function About() {
   return (
     <div className="py-32 px-4 max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-4 text-slate-800">
-        Hanoi Apartment
+        Mern Estate
       </h1>
 
       <p className="mb-4 text-slate-700">
-        Hanoi Apartment là một công ty bất động sản hàng đầu, chuyên hỗ trợ
+        Mern Estate là một công ty bất động sản hàng đầu, chuyên hỗ trợ
         khách hàng mua, bán và cho thuê bất động sản tại những khu vực đáng sống
         nhất. Đội ngũ chuyên viên giàu kinh nghiệm của chúng tôi tận tâm mang
         đến dịch vụ vượt trội và đảm bảo quá trình mua bán diễn ra thuận lợi
