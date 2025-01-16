@@ -107,7 +107,7 @@ export default function Home() {
           <SwiperSlide key={index}>
             <div
               style={{
-                background: `url(/public/images/${imageName}) center no-repeat`,
+                background: `url(/images/${imageName}) center no-repeat`,
                 backgroundSize: "cover",
               }}
               className="h-[650px] w-auto"
