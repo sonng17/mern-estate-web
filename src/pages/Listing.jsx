@@ -280,7 +280,7 @@ export default function Listing() {
               </p>
 
               <p className="text-slate-800">
-                <span className="font-semibold text-black">Mô tả - </span>
+                <span className="font-semibold text-black">Mô tả: </span>
                 {listing.description}
               </p>
               <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
