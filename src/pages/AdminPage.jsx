@@ -249,6 +249,28 @@ export default function AdminPage() {
       console.log(error);
     }
   };
+  const handlePromoteUser = async (id, role) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/admin/promoteUser/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+        credentials: "include", // Đảm bảo gửi cookie kèm theo yêu cầu
+      });
+      if (res.ok) {
+        message.success(`User role updated to ${role}`);
+        fetchUsers();
+      } else {
+        const data = await res.json();
+        message.error(data.message || "Failed to update user role");
+      }
+    } catch (error) {
+      message.error("An error occurred while updating the user role");
+      console.log(error);
+    }
+  };
   const userColumns = [
     {
       title: "Avatar",
@@ -301,6 +323,13 @@ export default function AdminPage() {
             onClick={() => handleGetUser(record._id)}
           >
             Get
+          </Button>
+          <Button
+            className="font-semibold w-40"
+            type="primary"
+            onClick={() => handlePromoteUser(record._id, "Admin")}
+          >
+            Promote to Admin
           </Button>
           <Button
             className="font-semibold w-24"
