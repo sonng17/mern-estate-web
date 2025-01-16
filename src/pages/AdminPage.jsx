@@ -28,7 +28,8 @@ export default function AdminPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        setUsers(data);
+        const sortedUsers = data.sort((a, b) => b._id.localeCompare(a._id));
+        setUsers(sortedUsers);
       } else {
         const data = await res.json();
         console.log(data.message);
@@ -48,7 +49,8 @@ export default function AdminPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        const listingsWithUsername = data.map((listing) => ({
+        const sortedListings = data.sort((a, b) => b._id.localeCompare(a._id));
+        const listingsWithUsername = sortedListings.map((listing) => ({
           ...listing,
           userRef:
             users.find((user) => user._id === listing.userRef)?.username ||
@@ -74,12 +76,18 @@ export default function AdminPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        const pendingListingsWithUsername = data.map((listing) => ({
-          ...listing,
-          userRef:
-            users.find((user) => user._id === listing.userRef)?.username ||
-            "Unknown",
-        }));
+        // Sắp xếp giảm dần theo _id
+        const sortedPendingListings = data.sort((a, b) =>
+          b._id.localeCompare(a._id)
+        );
+        const pendingListingsWithUsername = sortedPendingListings.map(
+          (listing) => ({
+            ...listing,
+            userRef:
+              users.find((user) => user._id === listing.userRef)?.username ||
+              "Unknown",
+          })
+        );
         setPendingListings(pendingListingsWithUsername);
       } else {
         const data = await res.json();
@@ -313,6 +321,13 @@ export default function AdminPage() {
       onFilter: (value, record) => record.role.includes(value),
     },
     {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      sorter: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      render: (createdAt) => new Date(createdAt).toLocaleString(), // Hiển thị thời gian đẹp hơn
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
@@ -324,13 +339,7 @@ export default function AdminPage() {
           >
             Get
           </Button>
-          <Button
-            className="font-semibold w-40"
-            type="primary"
-            onClick={() => handlePromoteUser(record._id, "Admin")}
-          >
-            Promote to Admin
-          </Button>
+
           <Button
             className="font-semibold w-24"
             type="primary"
@@ -338,6 +347,13 @@ export default function AdminPage() {
             onClick={() => handleDeleteUser(record._id)}
           >
             Delete
+          </Button>
+          <Button
+            className="font-semibold w-40 text-blue-500 border-2 border-blue-500"
+
+            onClick={() => handlePromoteUser(record._id, "Admin")}
+          >
+            Promote to Admin
           </Button>
         </div>
       ),
@@ -467,16 +483,23 @@ export default function AdminPage() {
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      ...getColumnSearchProps("description"),
-    },
-    {
       title: "Address",
       dataIndex: "address",
       key: "address",
       ...getColumnSearchProps("address"),
+    },
+    {
+      title: "Area(m2)",
+      dataIndex: "area",
+      key: "area",
+      ...getColumnSearchProps("area"),
+    },
+    {
+      title: "Price(VND)",
+      dataIndex: "regularPrice",
+      key: "regularPrice",
+      ...getColumnSearchProps("regularPrice"),
+      render: (value) => value?.toLocaleString("vi-VN") || "0",
     },
     {
       title: "Type",
@@ -521,6 +544,13 @@ export default function AdminPage() {
       onFilter: (value, record) => record.status.includes(value),
     },
     {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      sorter: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      render: (createdAt) => new Date(createdAt).toLocaleString(),
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
@@ -544,7 +574,7 @@ export default function AdminPage() {
           </div>
           <div className="flex gap-2">
             <Button
-              className="font-semibold bg-yellow-300 hover:bg-yellow-600! text-black"
+              className="font-semibold text-yellow-500 border-2 border-yellow-500  "
               type="default"
               onClick={() => handlePendListing(record._id, "Pending")}
             >
@@ -553,14 +583,14 @@ export default function AdminPage() {
             <Button
               type="default"
               onClick={() => handleApproveListing(record._id, "Approved")}
-              className="font-semibold bg-yellow-300 hover:bg-yellow-600! text-black"
+              className="font-semibold text-blue-500 border-2 border-blue-500"
             >
               Set Approved
             </Button>
             <Button
               type="default"
               onClick={() => handleRejectListing(record._id, "Rejected")}
-              className="font-semibold bg-yellow-300 hover:bg-yellow-600! text-black"
+              className="font-semibold text-red-500 border-2 border-red-500"
             >
               Set Rejected
             </Button>
@@ -591,16 +621,23 @@ export default function AdminPage() {
       ...getColumnSearchProps("name"),
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      ...getColumnSearchProps("description"),
-    },
-    {
       title: "Address",
       dataIndex: "address",
       key: "address",
       ...getColumnSearchProps("address"),
+    },
+    {
+      title: "Area(m2)",
+      dataIndex: "area",
+      key: "area",
+      ...getColumnSearchProps("area"),
+    },
+    {
+      title: "Price(VND)",
+      dataIndex: "regularPrice",
+      key: "regularPrice",
+      ...getColumnSearchProps("regularPrice"),
+      render: (value) => value?.toLocaleString("vi-VN") || "0",
     },
     {
       title: "Type",
@@ -619,6 +656,13 @@ export default function AdminPage() {
       dataIndex: "status",
       key: "status",
       ...getColumnSearchProps("status"),
+    },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      sorter: (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      render: (createdAt) => new Date(createdAt).toLocaleString(),
     },
     {
       title: "Actions",
