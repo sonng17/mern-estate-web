@@ -15,9 +15,12 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import L from "leaflet"; // Import Leaflet
+import "leaflet/dist/leaflet.css";
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const GEOAPIFY = import.meta.env.GEOAPIFY_API_KEY;
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
@@ -28,6 +31,8 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const params = useParams();
+  console.log(GEOAPIFY);
+  console.log(API_BASE_URL);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -90,6 +95,58 @@ export default function Listing() {
     fetchUserProfile();
   }, [listing]);
 
+  useEffect(() => {
+    if (!listing) return;
+
+    const normalizeAddressForAPI = (address) => {
+      return address
+        .trim() // Loại bỏ khoảng trắng ở đầu và cuối
+        .replace(/,/g, "") // Xóa dấu phẩy
+        .replace(/\s+/g, " ") // Chuẩn hóa khoảng trắng
+        .replace(/\s/g, "+"); // Thay khoảng trắng bằng dấu '+'
+    };
+
+    const fetchCoordinates = async () => {
+      try {
+        const normalizedAddress = normalizeAddressForAPI(listing.address);
+        console.log("Normalized Address:", normalizedAddress);
+
+        const res = await fetch(
+          `https://api.geoapify.com/v1/geocode/search?text=${normalizedAddress}&apiKey=8c71af156ad54a1bbe5f608f04fc3238`
+        );
+        const data = await res.json();
+        console.log("API Response:", data); // Xem kết quả trả về từ API
+
+        if (data && data.features && data.features.length > 0) {
+          const [lon, lat] = data.features[0].geometry.coordinates; // Lon, Lat format
+          console.log("Coordinates:", lon, lat); // Kiểm tra tọa độ trả về
+
+          // Hiển thị bản đồ
+          const map = L.map("map").setView([lat, lon], 15);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(map);
+
+          L.marker([lat, lon])
+            .addTo(map)
+            .bindPopup("Vị trí bất động sản")
+            .openPopup();
+        } else {
+          console.log(
+            "Không tìm thấy tọa độ từ địa chỉ. Dữ liệu trả về:",
+            data
+          );
+        }
+      } catch (error) {
+        console.log("Error fetching coordinates:", error);
+      }
+    };
+
+    fetchCoordinates();
+  }, [listing]);
+
   // Lấy ngày từ createdAt
   const createdAtDate = new Date(listing?.createdAt).toLocaleDateString(
     "vi-VN",
@@ -116,12 +173,14 @@ export default function Listing() {
                   className="h-[550px]"
                   style={{
                     background: `url(${url}) center no-repeat`,
-                    backgroundSize: "cover",
+                    backgroundSize: "contain", // Chắc chắn ảnh được thu nhỏ hoặc phóng to để không bị cắt
+                    backgroundColor: "#e6f2f0", // Bạn có thể thêm màu nền nếu cần để không có khoảng trống
                   }}
                 ></div>
               </SwiperSlide>
             ))}
           </Swiper>
+
           <div className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer">
             <FaShare
               className="text-slate-500"
@@ -194,7 +253,7 @@ export default function Listing() {
                 <span className=" text-black">Diện tích - </span>
                 {listing.area}m2
               </p>
-              
+
               <p className="text-slate-800 font-semibold">
                 <span className=" text-black">Ngày đăng - {createdAtDate}</span>
               </p>
@@ -242,6 +301,8 @@ export default function Listing() {
                   {listing.wardRef}
                 </div>
               </ul>
+              {/* Bản đồ */}
+              <div id="map" className="h-[400px] w-full mt-6"></div>
             </div>
 
             <div>
