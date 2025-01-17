@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -16,6 +18,7 @@ export default function SignUp() {
       [e.target.id]: e.target.value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,26 +30,30 @@ export default function SignUp() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-        
       });
+
       const data = await res.json();
+
       if (data.success === false) {
         setError(data.message);
         setLoading(false);
       } else {
         setLoading(false);
         setError(null);
-        navigate("/sign-in");
-        console.log(data);
+        toast.success("Đăng ký thành công!", {
+          position: "top-center", // Hiển thị ở trên và giữa màn hình
+          autoClose: 1000, // Tự động đóng sau 1 giây
+        });
+        setTimeout(() => navigate("/sign-in"), 1000); // Chuyển hướng sau 1 giây
       }
     } catch (error) {
       setLoading(false);
       setError(error.message);
     }
   };
-  // console.log(formData);
+
   return (
-    <div className="pb-28  p-3 max-w-lg mx-auto">
+    <div className="pb-28 p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Đăng ký</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -81,10 +88,15 @@ export default function SignUp() {
       <div className="flex gap-2 mt-5">
         <p>Đã có tài khoản?</p>
         <Link to={"/sign-in"}>
-          <span className="text-blue-700 font-semibold underline">Đăng nhập</span>
+          <span className="text-blue-700 font-semibold underline">
+            Đăng nhập
+          </span>
         </Link>
       </div>
       <div>{error && <p className="text-red-500 mt-5">{error}</p>}</div>
+
+      {/* Thêm container cho React Toastify */}
+      <ToastContainer />
     </div>
   );
 }

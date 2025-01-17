@@ -8,6 +8,8 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -235,7 +237,11 @@ export default function UpdateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/listing/${data._id}`);
+      toast.success("Đăng tin thành công! Chờ xét duyệt", {
+        position: "top-center", // Hiển thị ở trên và giữa màn hình
+        autoClose: 1000, // Tự động đóng sau 1 giây
+      });
+      setTimeout(() => navigate(`/listing/${data._id}`), 1000);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -504,6 +510,8 @@ export default function UpdateListing() {
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
       </form>
+      {/* Thêm container cho React Toastify */}
+      <ToastContainer />
     </main>
   );
 }
