@@ -8,20 +8,13 @@ import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const imageNames = [
-  "image1.jpg",
-  "image2.jpg",
-  "image3.jpg",
-  "image4.jpg",
-  "image5.jpg",
-  "image6.jpg",
-];
+const imageNames = ["image1.jpg", "image2.jpg", "image3.jpg", "image4.jpg", "image5.jpg", "image6.jpg"];
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Trạng thái loading
+  const [isLoading, setIsLoading] = useState(true); // Loading toàn bộ dữ liệu
 
   SwiperCore.use([Navigation]);
 
@@ -58,7 +51,7 @@ export default function Home() {
       } catch (error) {
         console.error("Lỗi khi tải dữ liệu:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Chỉ khi tất cả API gọi xong thì mới tắt loading
       }
     };
 
@@ -70,9 +63,7 @@ export default function Home() {
       <div className="flex justify-center items-center h-screen">
         <div className="flex flex-col items-center">
           <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-3 text-lg font-semibold text-gray-600">
-            Đang tải dữ liệu...
-          </p>
+          <p className="mt-3 text-lg font-semibold text-gray-600">Đang tải tất cả bất động sản...</p>
         </div>
       </div>
     );
@@ -86,12 +77,9 @@ export default function Home() {
           Tìm kiếm <span className="text-slate-500">không gian</span> cho bạn
         </h1>
         <p className="text-gray-400 text-xs sm:text-base">
-          Mern Estate là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp theo
-          của bạn. Chúng tôi có rất nhiều lựa chọn đa dạng về bất động sản.{" "}
-          <Link
-            to={"/search"}
-            className="font-bold text-blue-800 hover:underline"
-          >
+          Mern Estate là nơi tốt nhất để tìm kiếm chốn an cư lý tưởng tiếp theo của bạn.
+          Chúng tôi có rất nhiều lựa chọn đa dạng về bất động sản.{" "}
+          <Link to={"/search"} className="font-bold text-blue-800 hover:underline">
             Khám phá ngay...
           </Link>
         </p>
@@ -115,25 +103,13 @@ export default function Home() {
       {/* Listing Results */}
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
         {offerListings.length > 0 && (
-          <ListingSection
-            title="Recent Offer"
-            link="/search?offer=true"
-            listings={offerListings}
-          />
+          <ListingSection title="Recent Offer" link="/search?offer=true" listings={offerListings} />
         )}
         {rentListings.length > 0 && (
-          <ListingSection
-            title="Bất động sản cho thuê"
-            link="/search?type=rent"
-            listings={rentListings}
-          />
+          <ListingSection title="Bất động sản cho thuê" link="/search?type=rent" listings={rentListings} />
         )}
         {saleListings.length > 0 && (
-          <ListingSection
-            title="Bất động sản để bán"
-            link="/search?type=sale"
-            listings={saleListings}
-          />
+          <ListingSection title="Bất động sản để bán" link="/search?type=sale" listings={saleListings} />
         )}
       </div>
     </div>
@@ -141,7 +117,6 @@ export default function Home() {
 }
 
 // Component hiển thị danh sách listing
-
 function ListingSection({ title, link, listings }) {
   return (
     <div>
